@@ -1,4 +1,4 @@
-# FASTAC - Protein FASTA Quality Control and Comparison Tool
+# ProFACT - Protein FASTA analysis and comparison tool.
 
 > A pip-installable Python CLI for protein FASTA quality control, duplicate detection and dataset comparison.
 
