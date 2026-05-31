@@ -33,7 +33,7 @@ Bioinformatics workflows often use protein FASTA files after downloading data fr
   - changed duplicate clusters
 - Output formats: text, TSV, JSON, HTML
 - Pure Python, no heavy bioinformatics dependencies
-- Planned installation via `pip install fastac`
+- Planned installation via `pip install profact`
 
 ---
 
