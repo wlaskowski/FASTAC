@@ -5,6 +5,18 @@ from pathlib import Path
 from .parser import read_fasta, validate_record, FastaParseError
 from .duplicates import analyze_duplicates
 from .compare import compare_files
+from .stats import analyze_stats
+from .reporter import (
+    stats_to_text,
+    stats_to_tsv,
+    stats_to_json,
+    stats_to_html,
+    build_full_report_data,
+    full_report_to_text,
+    full_report_to_tsv,
+    full_report_to_json,
+    full_report_to_html,
+)
 
 
 def write_output(output_str, output_file):
@@ -38,19 +50,21 @@ def cmd_validate(args):
     validated = []
     for rec in records:
         res = validate_record(rec)
-        validated.append({
-            "id": rec.id,
-            "description": rec.description,
-            "sequence_length": len(rec.sequence),
-            "valid": res["valid"],
-            "errors": res["errors"],
-            "warnings": res["warnings"],
-            "has_x": res["has_x"],
-            "has_stop": res["has_stop"],
-            "is_empty": res["is_empty"],
-            "invalid_chars": sorted(res["invalid_chars"]),
-            "non_standard": sorted(res["non_standard"]),
-        })
+        validated.append(
+            {
+                "id": rec.id,
+                "description": rec.description,
+                "sequence_length": len(rec.sequence),
+                "valid": res["valid"],
+                "errors": res["errors"],
+                "warnings": res["warnings"],
+                "has_x": res["has_x"],
+                "has_stop": res["has_stop"],
+                "is_empty": res["is_empty"],
+                "invalid_chars": sorted(res["invalid_chars"]),
+                "non_standard": sorted(res["non_standard"]),
+            }
+        )
 
     total = len(validated)
     valid_count = sum(1 for v in validated if v["valid"])
@@ -60,25 +74,24 @@ def cmd_validate(args):
     empty_records = sum(1 for v in validated if v["is_empty"])
 
     if output_format == "json":
-        output_str = as_json({
-            "file": file_path,
-            "summary": {
-                "total_records": total,
-                "valid_records": valid_count,
-                "invalid_records": invalid_count,
-                "records_with_X": records_with_x,
-                "records_with_stop": records_with_stop,
-                "empty_records": empty_records,
-            },
-            "records": validated,
-        })
+        output_str = as_json(
+            {
+                "file": file_path,
+                "summary": {
+                    "total_records": total,
+                    "valid_records": valid_count,
+                    "invalid_records": invalid_count,
+                    "records_with_X": records_with_x,
+                    "records_with_stop": records_with_stop,
+                    "empty_records": empty_records,
+                },
+                "records": validated,
+            }
+        )
     elif output_format == "tsv":
         lines = ["id\tvalid\terrors\twarnings\thas_x\thas_stop\tis_empty"]
         for v in validated:
-            lines.append(
-                f"{v['id']}\t{v['valid']}\t{';'.join(v['errors'])}\t"
-                f"{';'.join(v['warnings'])}\t{v['has_x']}\t{v['has_stop']}\t{v['is_empty']}"
-            )
+            lines.append(f"{v['id']}\t{v['valid']}\t{';'.join(v['errors'])}\t" f"{';'.join(v['warnings'])}\t{v['has_x']}\t{v['has_stop']}\t{v['is_empty']}")
         output_str = "\n".join(lines)
     else:
         lines = [
@@ -154,7 +167,7 @@ def cmd_compare(args):
 
         for item in data["changed_sequences"]:
             lines.append(f"changed\t{item['id']}\t{item['old_length']}\t{item['new_length']}")
-            output_str = "\n".join(lines)
+        output_str = "\n".join(lines)
     else:
         s = data["summary"]
         lines = [
@@ -179,15 +192,57 @@ def cmd_compare(args):
         output_str = "\n".join(lines)
 
     write_output(output_str, args.output)
-    has_changes = any([
-        data["summary"]["added_count"],
-        data["summary"]["removed_count"],
-        data["summary"]["changed_sequence_count"],
-        data["summary"]["added_duplicate_cluster_count"],
-        data["summary"]["removed_duplicate_cluster_count"],
-        data["summary"]["changed_duplicate_cluster_count"],
-    ])
+    has_changes = any(
+        [
+            data["summary"]["added_count"],
+            data["summary"]["removed_count"],
+            data["summary"]["changed_sequence_count"],
+            data["summary"]["added_duplicate_cluster_count"],
+            data["summary"]["removed_duplicate_cluster_count"],
+            data["summary"]["changed_duplicate_cluster_count"],
+        ]
+    )
     sys.exit(1 if has_changes else 0)
+
+
+def cmd_stats(args):
+    try:
+        data = analyze_stats(args.fasta_file)
+    except (FileNotFoundError, FastaParseError) as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(2)
+
+    if args.format == "json":
+        output_str = stats_to_json(data)
+    elif args.format == "tsv":
+        output_str = stats_to_tsv(data)
+    elif args.format == "html":
+        output_str = stats_to_html(data)
+    else:
+        output_str = stats_to_text(data)
+
+    write_output(output_str, args.output)
+    sys.exit(0)
+
+
+def cmd_report(args):
+    try:
+        data = build_full_report_data(args.fasta_file)
+    except (FileNotFoundError, FastaParseError) as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(2)
+
+    if args.format == "json":
+        output_str = full_report_to_json(data)
+    elif args.format == "tsv":
+        output_str = full_report_to_tsv(data)
+    elif args.format == "html":
+        output_str = full_report_to_html(data)
+    else:
+        output_str = full_report_to_text(data)
+
+    write_output(output_str, args.output)
+    sys.exit(0)
 
 
 def main():
@@ -207,11 +262,23 @@ def main():
     dup_parser.set_defaults(func=cmd_duplicates)
 
     cmp_parser = subparsers.add_parser("compare", help="Compare two protein FASTA files")
-    cmp_parser.add_argument("-f1", "--file_1", metavar="FILE_1",dest="old_fasta", required=True, help="First FASTA file")
+    cmp_parser.add_argument("-f1", "--file_1", metavar="FILE_1", dest="old_fasta", required=True, help="First FASTA file")
     cmp_parser.add_argument("-f2", "--file_2", metavar="FILE_2", dest="new_fasta", required=True, help="Second FASTA file")
     cmp_parser.add_argument("-fmt", "--format", choices=["text", "json", "tsv"], default="text", help="Output format")
     cmp_parser.add_argument("-o", "--output", help="Output file (default: stdout)")
     cmp_parser.set_defaults(func=cmd_compare)
+
+    stats_parser = subparsers.add_parser("stats", help="Compute protein FASTA statistics")
+    stats_parser.add_argument("-i", "--input", dest="fasta_file", required=True, help="Input FASTA file (.fa, .fasta, .faa, .gz)")
+    stats_parser.add_argument("-fmt", "--format", choices=["text", "json", "tsv", "html"], default="text", help="Output format")
+    stats_parser.add_argument("-o", "--output", help="Output file (default: stdout)")
+    stats_parser.set_defaults(func=cmd_stats)
+
+    report_parser = subparsers.add_parser("report", help="Generate full protein FASTA report")
+    report_parser.add_argument("-i", "--input", dest="fasta_file", required=True, help="Input FASTA file (.fa, .fasta, .faa, .gz)")
+    report_parser.add_argument("-fmt", "--format", choices=["text", "json", "tsv", "html"], default="text", help="Output format")
+    report_parser.add_argument("-o", "--output", help="Output file (default: stdout)")
+    report_parser.set_defaults(func=cmd_report)
 
     args = parser.parse_args()
     args.func(args)
