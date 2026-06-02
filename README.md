@@ -1,8 +1,6 @@
-# ProFACT - Protein FASTA analysis and comparison tool
+# ProFACT - Protein FASTA Analysis and Comparison Tool
 
 > A pip-installable Python CLI for protein FASTA quality control, duplicate detection and dataset comparison.
-
-
 
 ## Subject
 
@@ -11,18 +9,18 @@ Bioinformatics workflows often use protein FASTA files after downloading data fr
 **ProFACT** provides one small Python package for a focused protein FASTA workflow:
 
 1. **Inspect** - compute statistics for protein FASTA files: sequence count, total/min/max/mean/median length, N50 and amino acid composition.
-2. **Validate** - detect empty records, duplicated IDs, unknown residues (`X`), stop symbols (`*`) and non-standard amino acid characters.
-3. **Find duplicates** - group identical protein sequences found under different IDs.
-4. **Compare** - report IDs added, removed and changed between two FASTA files, with side-by-side summary statistics.
-5. **Report** - export results in text, TSV, JSON or simple HTML format.
+2. **Validate** - detect empty records, unknown residues (`X`), stop symbols (`*`) and non-standard or invalid amino acid characters.
+3. **Find duplicates** - detect repeated IDs and group identical protein sequences found under different IDs.
+4. **Compare** - report IDs added, removed and changed between two FASTA files, including changed lengths and duplicate cluster changes.
+5. **Report** - generate a combined single-file report with statistics, validation summary and duplicate analysis.
 
 ---
 
 ## Features
 
 - Plain and gzipped protein FASTA support (`.fa`, `.fasta`, `.faa`, `.fa.gz`, `.fasta.gz`, `.faa.gz`)
-- Protein-specific statistics: length distribution, N50, amino acid composition
-- Quality checks: `X`, `*`, invalid amino acid characters, empty records
+- Protein-specific statistics: length distribution, N50 and amino acid composition
+- Quality checks: `X`, `*`, invalid amino acid characters and empty records
 - Duplicate detection: repeated IDs and identical sequences under different IDs
 - Exact duplicate clustering
 - Comparison of two protein FASTA files:
@@ -31,32 +29,53 @@ Bioinformatics workflows often use protein FASTA files after downloading data fr
   - changed sequences
   - changed sequence lengths
   - changed duplicate clusters
-- Output formats: text, TSV, JSON, HTML
+- Output formats: text, TSV and JSON for all commands; HTML for statistics and full reports
 - Pure Python, no heavy bioinformatics dependencies
-- Planned installation via `pip install profact`
+- Local installation via `pip install -e .`
 
 ---
 
-## Planned Usage
+## Installation
+
+```bash
+pip install -e .
+```
+
+For running tests:
+
+```bash
+pip install -e ".[test]"
+python3 -m pytest -q
+```
+
+---
+
+## Usage
 
 ```bash
 # Inspect a protein FASTA file
-profact stats swissprot_subset.fasta
+profact stats -i swissprot_subset.fasta
+
+# Export statistics as JSON
+profact stats -i swissprot_subset.fasta -fmt json -o stats.json
 
 # Validate protein records
-profact validate proteins.fasta.gz
+profact validate -i proteins.fasta.gz
 
 # Detect identical protein sequences
-profact duplicates proteins.fasta
+profact duplicates -i proteins.fasta
 
 # Compare raw and filtered protein datasets
-profact compare raw_proteins.fasta filtered_proteins.fasta
+profact compare -f1 raw_proteins.fasta -f2 filtered_proteins.fasta
 
 # Export comparison as JSON
-profact compare old_uniprot.fasta new_uniprot.fasta --format json --output report.json
+profact compare -f1 old_uniprot.fasta -f2 new_uniprot.fasta -fmt json -o compare.json
 
-# Generate an HTML report
-profact report proteins.fasta --output report.html
+# Generate a full HTML report
+profact report -i proteins.fasta -fmt html -o report.html
+
+# Generate a full text report
+profact report -i proteins.fasta
 ```
 
 ---
@@ -69,6 +88,8 @@ The first version is intended for small and medium protein datasets, such as cus
 
 The comparison is based on sequence IDs and exact sequence content. ProFACT does not perform BLAST searches, multiple sequence alignment or similarity-based clustering. Duplicate clustering means exact grouping of identical protein sequences.
 
+The `report` command generates a combined report for one FASTA file. Pairwise dataset comparison is handled separately by the `compare` command.
+
 ---
 
 ## Similar Tools
@@ -76,33 +97,6 @@ The comparison is based on sequence IDs and exact sequence content. ProFACT does
 Similar tools already exist, including `seqkit`, `pyfastx`, BioPython and FastQC. ProFACT does not aim to replace them or introduce a new algorithm.
 
 The goal is to build a small, focused and testable protein FASTA tool with one consistent CLI for validation, statistics, exact duplicate detection, comparison and report generation.
-
----
-
-## Project Structure
-
-```
-profact/
-├── profact/
-│   ├── __init__.py
-│   ├── cli.py          # Command-line interface
-│   ├── parser.py       # FASTA reading, gzip support, validation
-│   ├── stats.py        # Protein statistics and amino acid composition
-│   ├── duplicates.py   # Duplicate IDs and exact sequence clusters
-│   ├── compare.py      # Comparison of two protein FASTA files
-│   └── reporter.py     # Text/TSV/JSON/HTML reports
-├── tests/
-│   ├── test_parser.py
-│   ├── test_stats.py
-│   ├── test_duplicates.py
-│   ├── test_compare.py
-│   └── test_reporter.py
-├── .github/workflows/
-│   └── ci.yml          # GitHub Actions: run pytest on every push
-├── README.md
-├── pyproject.toml
-└── LICENSE
-```
 
 ---
 
@@ -116,16 +110,6 @@ profact/
 
 ---
 
-## Progress Log
-
-| Date | Milestone |
-|------|-----------|
-| 2026-05-07 | Project concept defined, README created, repository set up |
-| 2026-05-17 | Scope clarified: protein FASTA QC, comparison and exact duplicate clustering |
-
----
-
 ## Novelty Statement
 
 ProFACT's novelty lies in **integration and architecture**, not in a new bioinformatics algorithm. It combines common protein FASTA quality-control tasks into one pip-installable Python package with a consistent CLI, structured outputs and automated tests.
-
