@@ -11,6 +11,7 @@ from .reporter import (
     stats_to_tsv,
     stats_to_json,
     stats_to_html,
+    format_validation_report,
     build_full_report_data,
     full_report_to_text,
     full_report_to_tsv,
@@ -31,41 +32,6 @@ def as_json(data):
 
 
 def cmd_validate(args):
-    file_path = args.fasta_file
-    output_format = args.format
-    output_file = args.output
-
-    try:
-        records = list(read_fasta(file_path))
-    except FileNotFoundError as e:
-        print(f"ERROR: {e}", file=sys.stderr)
-        sys.exit(2)
-    except FastaParseError as e:
-        print(f"ERROR: Invalid FASTA format: {e}", file=sys.stderr)
-        sys.exit(2)
-    except Exception as e:
-        print(f"ERROR: {e}", file=sys.stderr)
-        sys.exit(2)
-
-    validated = []
-    for rec in records:
-        res = validate_record(rec)
-        validated.append(
-            {
-                "id": rec.id,
-                "description": rec.description,
-                "sequence_length": len(rec.sequence),
-                "valid": res["valid"],
-                "errors": res["errors"],
-                "warnings": res["warnings"],
-                "has_x": res["has_x"],
-                "has_stop": res["has_stop"],
-                "is_empty": res["is_empty"],
-                "invalid_chars": sorted(res["invalid_chars"]),
-                "non_standard": sorted(res["non_standard"]),
-            }
-        )
-
     total = len(validated)
     valid_count = sum(1 for v in validated if v["valid"])
     invalid_count = total - valid_count
@@ -73,41 +39,17 @@ def cmd_validate(args):
     records_with_stop = sum(1 for v in validated if v["has_stop"])
     empty_records = sum(1 for v in validated if v["is_empty"])
 
-    if output_format == "json":
-        output_str = as_json(
-            {
-                "file": file_path,
-                "summary": {
-                    "total_records": total,
-                    "valid_records": valid_count,
-                    "invalid_records": invalid_count,
-                    "records_with_X": records_with_x,
-                    "records_with_stop": records_with_stop,
-                    "empty_records": empty_records,
-                },
-                "records": validated,
-            }
-        )
-    elif output_format == "tsv":
-        lines = ["id\tvalid\terrors\twarnings\thas_x\thas_stop\tis_empty"]
-        for v in validated:
-            lines.append(f"{v['id']}\t{v['valid']}\t{';'.join(v['errors'])}\t" f"{';'.join(v['warnings'])}\t{v['has_x']}\t{v['has_stop']}\t{v['is_empty']}")
-        output_str = "\n".join(lines)
-    else:
-        lines = [
-            f"=== Validation report for {file_path} ===",
-            f"Total records: {total}",
-            f"Valid: {valid_count}, Invalid: {invalid_count}",
-            f"Records with 'X': {records_with_x}, with '*': {records_with_stop}, empty: {empty_records}\n",
-        ]
-        for v in validated:
-            if v["errors"] or v["warnings"]:
-                lines.append(f"> {v['id']} (len={v['sequence_length']})")
-                for err in v["errors"]:
-                    lines.append(f"  ERROR: {err}")
-                for warn in v["warnings"]:
-                    lines.append(f"  WARN:  {warn}")
-        output_str = "\n".join(lines)
+    
+    summary = {
+        "total_records": total,
+        "valid_records": valid_count,
+        "invalid_records": invalid_count,
+        "records_with_X": records_with_x,
+        "records_with_stop": records_with_stop,
+        "empty_records": empty_records,
+    }
+
+    output_str = format_validation_report(file_path, validated, summary, output_format)
 
     write_output(output_str, output_file)
     sys.exit(0 if invalid_count == 0 else 1)
