@@ -274,3 +274,30 @@ def full_report_to_tsv(data):
         lines.append(f"duplicates\t{metric}\t{value}")
 
     return "\n".join(lines)
+
+def format_validation_report(file_path, validated, summary, output_format):
+    """Format validation results into text, tsv, or json."""
+    if output_format == "json":
+        return json.dumps({
+            "file": file_path,
+            "summary": summary,
+            "records": validated,
+        }, indent=2)
+    elif output_format == "tsv":
+        lines = ["id\tvalid\terrors\twarnings\thas_x\thas_stop\tis_empty"]
+        for v in validated:
+            lines.append(f"{v['id']}\t{v['valid']}\t{';'.join(v['errors'])}\t{';'.join(v['warnings'])}\t{v['has_x']}\t{v['has_stop']}\t{v['is_empty']}")
+        return "\n".join(lines)
+    else:
+        lines = [f"=== Validation report for {file_path} ===",
+                 f"Total records: {summary['total_records']}",
+                 f"Valid: {summary['valid_records']}, Invalid: {summary['invalid_records']}",
+                 f"Records with 'X': {summary['records_with_X']}, with '*': {summary['records_with_stop']}, empty: {summary['empty_records']}\n"]
+        for v in validated:
+            if v["errors"] or v["warnings"]:
+                lines.append(f"> {v['id']} (len={v['sequence_length']})")
+                for err in v["errors"]:
+                    lines.append(f"  ERROR: {err}")
+                for warn in v["warnings"]:
+                    lines.append(f"  WARN:  {warn}")
+        return "\n".join(lines)
