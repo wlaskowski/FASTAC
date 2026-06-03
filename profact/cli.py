@@ -32,6 +32,41 @@ def as_json(data):
 
 
 def cmd_validate(args):
+    file_path = args.fasta_file
+    output_format = args.format
+    output_file = args.output
+
+    try:
+        records = list(read_fasta(file_path))
+    except FileNotFoundError as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(2)
+    except FastaParseError as e:
+        print(f"ERROR: Invalid FASTA format: {e}", file=sys.stderr)
+        sys.exit(2)
+    except Exception as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(2)
+
+    validated = []
+    for rec in records:
+        res = validate_record(rec)
+        validated.append(
+            {
+                "id": rec.id,
+                "description": rec.description,
+                "sequence_length": len(rec.sequence),
+                "valid": res["valid"],
+                "errors": res["errors"],
+                "warnings": res["warnings"],
+                "has_x": res["has_x"],
+                "has_stop": res["has_stop"],
+                "is_empty": res["is_empty"],
+                "invalid_chars": sorted(res["invalid_chars"]),
+                "non_standard": sorted(res["non_standard"]),
+            }
+        )
+
     total = len(validated)
     valid_count = sum(1 for v in validated if v["valid"])
     invalid_count = total - valid_count
@@ -39,7 +74,6 @@ def cmd_validate(args):
     records_with_stop = sum(1 for v in validated if v["has_stop"])
     empty_records = sum(1 for v in validated if v["is_empty"])
 
-    
     summary = {
         "total_records": total,
         "valid_records": valid_count,
@@ -49,6 +83,7 @@ def cmd_validate(args):
         "empty_records": empty_records,
     }
 
+    # Use the reporter function
     output_str = format_validation_report(file_path, validated, summary, output_format)
 
     write_output(output_str, output_file)
