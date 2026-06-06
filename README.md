@@ -2,17 +2,11 @@
 
 > A pip-installable Python CLI for protein FASTA quality control, duplicate detection and dataset comparison.
 
-## Subject
+## Overview
 
-Bioinformatics workflows often use protein FASTA files after downloading data from UniProt, Swiss-Prot, RefSeq or Ensembl/NCBI, filtering protein datasets, or running protein prediction pipelines. Checking what changed between two versions of such files usually requires custom scripts, shell commands and separate tools.
+Bioinformatics workflows often use protein FASTA files after downloading data from UniProt, Swiss-Prot, RefSeq or Ensembl/NCBI, filtering protein datasets, or running protein prediction pipelines. Checking quality and comparing two FASTA datasets often requires separate shell commands or custom scripts.
 
-**ProFACT** provides one small Python package for a focused protein FASTA workflow:
-
-1. **Inspect** - compute statistics for protein FASTA files: sequence count, total/min/max/mean/median length, N50 and amino acid composition.
-2. **Validate** - detect empty records, unknown residues (`X`), stop symbols (`*`) and non-standard or invalid amino acid characters.
-3. **Find duplicates** - detect repeated IDs and group identical protein sequences found under different IDs.
-4. **Compare** - report IDs added, removed and changed between two FASTA files, including changed lengths and duplicate cluster changes.
-5. **Report** - generate a combined single-file report with statistics, validation summary and duplicate analysis.
+ProFACT combines common protein FASTA quality-control tasks into one small, testable Python CLI tool.
 
 ---
 
@@ -50,6 +44,40 @@ python3 -m pytest -q
 
 ---
 
+## Quick Start With Included Data
+
+The repository includes two sample UniProt proteome FASTA files in `data/`.
+
+To run tests and generate all example outputs:
+
+```bash
+bash scripts/run_examples.sh
+```
+
+This writes text, TSV, JSON and HTML outputs to `output/`.
+
+You can also run selected analyses manually:
+
+```bash
+python3 -m profact.cli stats \
+  -i data/uniprotkb_proteome_UP000000625_2026_06_06.fasta \
+  -fmt html \
+  -o output/stats_UP000000625.html
+
+python3 -m profact.cli report \
+  -i data/uniprotkb_proteome_UP000000625_2026_06_06.fasta \
+  -fmt html \
+  -o output/report_UP000000625.html
+
+python3 -m profact.cli compare \
+  -f1 data/uniprotkb_proteome_UP000000625_2026_06_06.fasta \
+  -f2 data/uniprotkb_proteome_UP000001570_2026_06_06.fasta \
+  -fmt json \
+  -o output/compare_UP000000625_vs_UP000001570.json
+```
+
+---
+
 ## Usage
 
 ```bash
@@ -57,7 +85,7 @@ python3 -m pytest -q
 profact stats -i swissprot_subset.fasta
 
 # Export statistics as JSON
-profact stats -i swissprot_subset.fasta -fmt json -o stats.json
+profact stats -i swissprot_subset.fasta -fmt json -o output/stats.json
 
 # Validate protein records
 profact validate -i proteins.fasta.gz
@@ -69,7 +97,7 @@ profact duplicates -i proteins.fasta
 profact compare -f1 raw_proteins.fasta -f2 filtered_proteins.fasta
 
 # Export comparison as JSON
-profact compare -f1 old_uniprot.fasta -f2 new_uniprot.fasta -fmt json -o compare.json
+profact compare -f1 old_uniprot.fasta -f2 new_uniprot.fasta -fmt json -o output/compare.json
 
 # Generate a full HTML report
 profact report -i proteins.fasta -fmt html -o output/report.html
@@ -85,6 +113,32 @@ profact stats -i data/proteins.fasta -fmt json -o output/stats.json
 profact validate -i data/proteins.fasta -fmt tsv -o output/validation.tsv
 profact compare -f1 data/old.fasta -f2 data/new.fasta -fmt json -o output/compare.json
 ```
+
+The `validate` command exits with status code `1` when invalid records are found.
+The `compare` command exits with status code `1` when the two files differ.
+In both cases this is expected behavior and reports are still written to `output/`.
+
+---
+
+## Project Structure
+
+```text
+profact/      Python package and CLI implementation
+tests/        Automated tests
+data/         Sample FASTA datasets
+output/       Generated reports and command outputs
+scripts/      Helper scripts for reproducible example runs
+```
+
+---
+
+## What We Implemented
+
+We created ProFACT as a new bioinformatics-related Python CLI project for protein FASTA quality control and comparison.
+
+The implementation includes FASTA parsing, validation, sequence statistics, duplicate detection, pairwise dataset comparison, report generation, automated tests, sample FASTA datasets and a reproducible example script.
+
+The tool was needed because common FASTA quality checks are often done with separate commands or custom scripts. ProFACT provides these checks in one consistent package.
 
 ---
 
@@ -102,9 +156,9 @@ The `report` command generates a combined report for one FASTA file. Pairwise da
 
 ## Similar Tools
 
-Similar tools already exist, including `seqkit`, `pyfastx`, BioPython and FastQC. ProFACT does not aim to replace them or introduce a new algorithm.
+Similar tools already exist, including `seqkit`, `pyfastx`, BioPython and FastQC. ProFACT does not aim to replace them or introduce a new bioinformatics algorithm.
 
-The goal is to build a small, focused and testable protein FASTA tool with one consistent CLI for validation, statistics, exact duplicate detection, comparison and report generation.
+Its value is integration: it combines common protein FASTA checks into one small, focused and testable CLI with structured outputs and automated tests.
 
 ---
 
@@ -115,9 +169,3 @@ The goal is to build a small, focused and testable protein FASTA tool with one c
 | Wojciech Laskowski | [@wlaskowski](https://github.com/wlaskowski) |
 | Wojciech Moryl | [@wojciech-moryl](https://github.com/Fair0n) |
 | Karolina Winczewska | [@KarolinaWinczewska](https://github.com/KaWinczewska) |
-
----
-
-## Novelty Statement
-
-ProFACT's novelty lies in **integration and architecture**, not in a new bioinformatics algorithm. It combines common protein FASTA quality-control tasks into one pip-installable Python package with a consistent CLI, structured outputs and automated tests.
