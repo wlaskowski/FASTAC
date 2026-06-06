@@ -1,9 +1,260 @@
 """Report formatting for ProFACT analysis results."""
 
 import json
+from html import escape
 from .parser import validate_record, read_fasta
 from .duplicates import duplicate_summary
 from .stats import stats_summary
+
+
+def _html_styles():
+    """Return shared CSS for HTML reports."""
+    return """
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+    font-family: Arial, Helvetica, sans-serif;
+}
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+}
+header {
+    margin-bottom: 24px;
+}
+h1 {
+    margin: 0 0 8px;
+    color: #111827;
+}
+h2 {
+    margin-top: 32px;
+    color: #111827;
+}
+.muted {
+    color: #6b7280;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+.card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+}
+.card .label {
+    color: #6b7280;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+.card .value {
+    margin-top: 6px;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+th, td {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 8px 10px;
+    text-align: left;
+}
+th {
+    background: #eef2f7;
+}
+tr:last-child td {
+    border-bottom: 0;
+}
+.bar-cell {
+    min-width: 180px;
+}
+.bar {
+    height: 10px;
+    background: #dbeafe;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.bar span {
+    display: block;
+    height: 100%;
+    background: #2563eb;
+}
+.status-ok {
+    color: #047857;
+    font-weight: 700;
+}
+.status-warn {
+    color: #b45309;
+    font-weight: 700;
+}
+.ids {
+    line-height: 1.5;
+}
+.tag {
+    display: inline-block;
+    margin: 2px 4px 2px 0;
+    padding: 2px 6px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 999px;
+    color: #3730a3;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.sequence-preview {
+    max-width: 320px;
+    color: #6b7280;
+    font-family: monospace;
+    overflow-wrap: anywhere;
+}
+"""
+
+
+def _format_metric_name(metric):
+    """Make internal metric names easier to read in HTML reports."""
+    return metric.replace("_", " ").title()
+
+
+def _cards(metrics):
+    lines = ["<section class=\"cards\">"]
+    for label, value in metrics:
+        lines.extend(
+            [
+                "<div class=\"card\">",
+                f"<div class=\"label\">{escape(str(label))}</div>",
+                f"<div class=\"value\">{escape(str(value))}</div>",
+                "</div>",
+            ]
+        )
+    lines.append("</section>")
+    return lines
+
+
+def _summary_table(summary):
+    lines = [
+        "<table>",
+        "<tr><th>Metric</th><th>Value</th></tr>",
+    ]
+    for metric, value in summary.items():
+        lines.append(
+            f"<tr><td>{escape(_format_metric_name(metric))}</td>"
+            f"<td>{escape(str(value))}</td></tr>"
+        )
+    lines.append("</table>")
+    return lines
+
+
+def _composition_table(composition):
+    lines = [
+        "<table>",
+        "<tr><th>AA</th><th>Count</th><th>Percent</th><th>Chart</th></tr>",
+    ]
+    for aa, values in composition.items():
+        percent = values["percent"]
+        width = max(0, min(100, percent))
+        lines.append(
+            "<tr>"
+            f"<td>{escape(str(aa))}</td>"
+            f"<td>{values['count']}</td>"
+            f"<td>{percent:.2f}</td>"
+            "<td class=\"bar-cell\">"
+            f"<div class=\"bar\"><span style=\"width: {width:.2f}%\"></span></div>"
+            "</td>"
+            "</tr>"
+        )
+    lines.append("</table>")
+    return lines
+
+
+def _metric_table(metrics):
+    lines = [
+        "<table>",
+        "<tr><th>Metric</th><th>Value</th></tr>",
+    ]
+    for metric, value in metrics.items():
+        lines.append(
+            f"<tr><td>{escape(_format_metric_name(metric))}</td>"
+            f"<td>{escape(str(value))}</td></tr>"
+        )
+    lines.append("</table>")
+    return lines
+
+
+def _duplicates_summary_table(duplicates):
+    summary_keys = [
+        "total_records",
+        "duplicate_id_count",
+        "identical_sequence_cluster_count",
+        "records_in_identical_sequence_clusters",
+    ]
+    summary = {key: duplicates[key] for key in summary_keys if key in duplicates}
+    return _metric_table(summary)
+
+
+def _duplicate_ids_table(duplicate_ids):
+    if not duplicate_ids:
+        return ["<p class=\"muted\">No duplicate IDs found.</p>"]
+
+    lines = [
+        "<h3>Duplicate IDs</h3>",
+        "<table>",
+        "<tr><th>ID</th><th>Occurrences</th></tr>",
+    ]
+    for seq_id, count in sorted(duplicate_ids.items()):
+        lines.append(
+            f"<tr><td>{escape(str(seq_id))}</td><td>{escape(str(count))}</td></tr>"
+        )
+    lines.append("</table>")
+    return lines
+
+
+def _duplicate_clusters_table(clusters):
+    if not clusters:
+        return ["<p class=\"muted\">No identical sequence clusters found.</p>"]
+
+    lines = [
+        "<h3>Identical sequence clusters</h3>",
+        "<table>",
+        "<tr><th>#</th><th>Length</th><th>Records</th><th>IDs</th><th>Sequence preview</th></tr>",
+    ]
+    for index, cluster in enumerate(clusters, start=1):
+        ids = " ".join(
+            f"<span class=\"tag\">{escape(str(seq_id))}</span>"
+            for seq_id in cluster["ids"]
+        )
+        sequence = cluster.get("sequence", "")
+        preview = sequence[:60] + ("..." if len(sequence) > 60 else "")
+        lines.append(
+            "<tr>"
+            f"<td>{index}</td>"
+            f"<td>{cluster['length']}</td>"
+            f"<td>{cluster['count']}</td>"
+            f"<td class=\"ids\">{ids}</td>"
+            f"<td class=\"sequence-preview\">{escape(preview)}</td>"
+            "</tr>"
+        )
+    lines.append("</table>")
+    return lines
+
+
+def _duplicates_section(duplicates):
+    lines = []
+    lines.extend(_duplicates_summary_table(duplicates))
+    lines.extend(_duplicate_ids_table(duplicates.get("duplicate_ids", {})))
+    lines.extend(_duplicate_clusters_table(duplicates.get("identical_sequence_clusters", [])))
+    return lines
 
 
 def stats_to_text(data):
@@ -59,35 +310,45 @@ def stats_to_html(data):
         "<head>",
         "<title>Statistics report</title>",
         "<style>",
-        "table { border-collapse: collapse; }",
-        "th, td { border: 1px solid black; padding: 4px; }",
+        _html_styles(),
         "</style>",
         "</head>",
         "<body>",
+        "<main>",
+        "<header>",
         "<h1>Statistics report</h1>",
-        "<h2>Summary statistics</h2>",
-        "<table>",
-        "<tr><th>Metric</th><th>Value</th></tr>",
+        "<p class=\"muted\">Protein FASTA summary statistics and amino acid composition.</p>",
+        "</header>",
     ]
 
-    for metric, value in summary.items():
-        lines.append(f"<tr><td>{metric}</td><td>{value}</td></tr>")
-
     lines.extend(
-        [
-            "</table>",
-            "<h2>Amino acid composition</h2>",
-            "<table>",
-            "<tr><th>AA</th><th>Count</th><th>Percent</th></tr>",
-        ]
+        _cards(
+            [
+                ("Sequences", summary["sequence_count"]),
+                ("Total length", summary["total_length"]),
+                ("N50", summary["n50"]),
+                ("Median length", summary.get("median_length", "n/a")),
+            ]
+        )
     )
 
-    for aa, values in composition.items():
-        lines.append(f"<tr><td>{aa}</td><td>{values['count']}</td><td>{values['percent']:.2f}</td></tr>")
+    lines.extend(
+        [
+        "<h2>Summary statistics</h2>",
+        ]
+    )
+    lines.extend(_summary_table(summary))
 
     lines.extend(
         [
-            "</table>",
+            "<h2>Amino acid composition</h2>",
+        ]
+    )
+    lines.extend(_composition_table(composition))
+
+    lines.extend(
+        [
+            "</main>",
             "</body>",
             "</html>",
         ]
@@ -159,8 +420,24 @@ def full_report_to_text(data):
 
     lines.append("")
     lines.append("Duplicates:")
-    for metric, value in duplicates.items():
-        lines.append(f"{metric}: {value}")
+    lines.append(f"total_records: {duplicates['total_records']}")
+    lines.append(f"duplicate_id_count: {duplicates['duplicate_id_count']}")
+    lines.append(f"identical_sequence_cluster_count: {duplicates['identical_sequence_cluster_count']}")
+    lines.append(
+        "records_in_identical_sequence_clusters: "
+        f"{duplicates['records_in_identical_sequence_clusters']}"
+    )
+    if duplicates["duplicate_ids"]:
+        lines.append("duplicate_ids:")
+        for seq_id, count in sorted(duplicates["duplicate_ids"].items()):
+            lines.append(f"  {seq_id}: {count} records")
+    if duplicates["identical_sequence_clusters"]:
+        lines.append("identical_sequence_clusters:")
+        for index, cluster in enumerate(duplicates["identical_sequence_clusters"], start=1):
+            lines.append(
+                f"  Cluster {index}: len={cluster['length']}, "
+                f"count={cluster['count']}, ids={', '.join(cluster['ids'])}"
+            )
     return "\n".join(lines)
 
 
@@ -183,60 +460,62 @@ def full_report_to_html(data):
         "<head>",
         "<title>ProFACT full report</title>",
         "<style>",
-        "table { border-collapse: collapse; }",
-        "th, td { border: 1px solid black; padding: 4px; }",
+        _html_styles(),
         "</style>",
         "</head>",
         "<body>",
+        "<main>",
+        "<header>",
         "<h1>ProFACT full report</h1>",
-        f"<p>File: {data['file']}</p>",
-        "<h2>Summary statistics</h2>",
-        "<table>",
-        "<tr><th>Metric</th><th>Value</th></tr>",
+        f"<p class=\"muted\">File: {escape(str(data['file']))}</p>",
+        "</header>",
     ]
 
-    for metric, value in summary.items():
-        lines.append(f"<tr><td>{metric}</td><td>{value}</td></tr>")
+    validation_status = "OK" if validation["invalid_records"] == 0 else "Issues found"
+    duplicate_status = duplicates["identical_sequence_cluster_count"]
+    lines.extend(
+        _cards(
+            [
+                ("Sequences", summary["sequence_count"]),
+                ("Total length", summary["total_length"]),
+                ("N50", summary["n50"]),
+                ("Validation", validation_status),
+                ("Duplicate clusters", duplicate_status),
+            ]
+        )
+    )
 
     lines.extend(
         [
-            "</table>",
+        "<h2>Summary statistics</h2>",
+        ]
+    )
+    lines.extend(_summary_table(summary))
+
+    lines.extend(
+        [
             "<h2>Amino acid composition</h2>",
-            "<table>",
-            "<tr><th>AA</th><th>Count</th><th>Percent</th></tr>",
         ]
     )
-
-    for aa, values in composition.items():
-        lines.append(f"<tr><td>{aa}</td><td>{values['count']}</td><td>{values['percent']:.2f}</td></tr>")
+    lines.extend(_composition_table(composition))
 
     lines.extend(
         [
-            "</table>",
             "<h2>Validation</h2>",
-            "<table>",
-            "<tr><th>Metric</th><th>Value</th></tr>",
         ]
     )
-
-    for metric, value in validation.items():
-        lines.append(f"<tr><td>{metric}</td><td>{value}</td></tr>")
+    lines.extend(_metric_table(validation))
 
     lines.extend(
         [
-            "</table>",
             "<h2>Duplicates</h2>",
-            "<table>",
-            "<tr><th>Metric</th><th>Value</th></tr>",
         ]
     )
-
-    for metric, value in duplicates.items():
-        lines.append(f"<tr><td>{metric}</td><td>{value}</td></tr>")
+    lines.extend(_duplicates_section(duplicates))
 
     lines.extend(
         [
-            "</table>",
+            "</main>",
             "</body>",
             "</html>",
         ]
