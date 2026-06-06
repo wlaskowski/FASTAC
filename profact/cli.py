@@ -1,6 +1,5 @@
 import argparse
 import sys
-import json
 from pathlib import Path
 from .parser import read_fasta, validate_record, FastaParseError
 from .duplicates import analyze_duplicates
@@ -17,6 +16,8 @@ from .reporter import (
     full_report_to_tsv,
     full_report_to_json,
     full_report_to_html,
+    format_duplicates_report,
+    format_compare_report,
 )
 
 
@@ -26,9 +27,6 @@ def write_output(output_str, output_file):
     else:
         print(output_str)
 
-
-def as_json(data):
-    return json.dumps(data, indent=2)
 
 
 def cmd_validate(args):
@@ -97,29 +95,7 @@ def cmd_duplicates(args):
         print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(2)
 
-    if args.format == "json":
-        output_str = as_json(data)
-    elif args.format == "tsv":
-        lines = ["cluster_no\tlength\tcount\tids"]
-        for i, cluster in enumerate(data["identical_sequence_clusters"], start=1):
-            lines.append(f"{i}\t{cluster['length']}\t{cluster['count']}\t{','.join(cluster['ids'])}")
-        output_str = "\n".join(lines)
-    else:
-        lines = [
-            f"=== Duplicate report for {args.fasta_file} ===",
-            f"Total records: {data['total_records']}",
-            f"Duplicate IDs: {data['duplicate_id_count']}",
-            f"Identical sequence clusters: {data['identical_sequence_cluster_count']}",
-        ]
-        if data["duplicate_ids"]:
-            lines.append("\nDuplicate IDs:")
-            for seq_id, count in sorted(data["duplicate_ids"].items()):
-                lines.append(f"  {seq_id}: {count} records")
-        if data["identical_sequence_clusters"]:
-            lines.append("\nIdentical sequence clusters:")
-            for i, cluster in enumerate(data["identical_sequence_clusters"], start=1):
-                lines.append(f"  Cluster {i}: len={cluster['length']}, ids={', '.join(cluster['ids'])}")
-        output_str = "\n".join(lines)
+    output_str = format_duplicates_report(data, args.fasta_file, args.format)
 
     write_output(output_str, args.output)
     sys.exit(0)
@@ -132,41 +108,7 @@ def cmd_compare(args):
         print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(2)
 
-    if args.format == "json":
-        output_str = as_json(data)
-    elif args.format == "tsv":
-        lines = ["type\tid\told_length\tnew_length"]
-        for item in data["added_ids"]:
-            lines.append(f"added\t{item['id']}\t\t{item['new_length']}")
-
-        for item in data["removed_ids"]:
-            lines.append(f"removed\t{item['id']}\t{item['old_length']}\t")
-
-        for item in data["changed_sequences"]:
-            lines.append(f"changed\t{item['id']}\t{item['old_length']}\t{item['new_length']}")
-        output_str = "\n".join(lines)
-    else:
-        s = data["summary"]
-        lines = [
-            f"=== Comparison report ===",
-            f"Old records: {s['old_total_records']}",
-            f"New records: {s['new_total_records']}",
-            f"Added IDs: {s['added_count']}",
-            f"Removed IDs: {s['removed_count']}",
-            f"Changed sequences: {s['changed_sequence_count']}",
-            f"Changed lengths: {s['changed_length_count']}",
-            f"Duplicate clusters added/removed/changed: "
-            f"{s['added_duplicate_cluster_count']}/{s['removed_duplicate_cluster_count']}/{s['changed_duplicate_cluster_count']}",
-        ]
-        if data["added_ids"]:
-            lines.append("\nAdded IDs: " + ", ".join(item["id"] for item in data["added_ids"]))
-        if data["removed_ids"]:
-            lines.append("Removed IDs: " + ", ".join(item["id"] for item in data["removed_ids"]))
-        if data["changed_sequences"]:
-            lines.append("Changed sequences:")
-            for item in data["changed_sequences"]:
-                lines.append(f"  {item['id']}: {item['old_length']} -> {item['new_length']}")
-        output_str = "\n".join(lines)
+    output_str = format_compare_report(data, args.format)
 
     write_output(output_str, args.output)
     has_changes = any(
