@@ -3,7 +3,7 @@
 > A pip-installable Python CLI for protein FASTA quality control, duplicate detection and dataset comparison.
 
 <p align="center">
-  <img width="300" height="300" alt="ProFact" src="https://github.com/user-attachments/assets/0e32c2e5-2076-451b-b036-18cb15cb10f3" />
+  <img width="300" height="300" alt="ProFACT logo" src="https://github.com/user-attachments/assets/0e32c2e5-2076-451b-b036-18cb15cb10f3" />
 </p>
 
 ## Overview
@@ -29,7 +29,7 @@ ProFACT combines common protein FASTA quality-control tasks into one small, test
   - changed duplicate clusters
 - Output formats: text, TSV and JSON for all commands; HTML for statistics and full reports
 - Pure Python, no heavy bioinformatics dependencies
-- Installation from github via `pip install git+https://github.com/wlaskowski/ProFACT.git`
+- Installation from GitHub via `pip install git+https://github.com/wlaskowski/ProFACT.git`
 
 ---
 
@@ -39,11 +39,11 @@ ProFACT combines common protein FASTA quality-control tasks into one small, test
 pip install git+https://github.com/wlaskowski/ProFACT.git
 ```
 
-After installation, the profact command is available globally.
+After installation, the `profact` command is available globally.
 
-For development (editable mode):
+For development in editable mode:
 
-```
+```bash
 git clone https://github.com/wlaskowski/ProFACT.git
 cd ProFACT
 pip install -e .
@@ -61,6 +61,13 @@ python3 -m pytest -q
 ## Quick Start With Included Data
 
 The repository includes two sample UniProt proteome FASTA files in `data/`.
+
+The commands below assume that the repository was cloned locally:
+
+```bash
+git clone https://github.com/wlaskowski/ProFACT.git
+cd ProFACT
+```
 
 To run tests and generate all example outputs:
 
