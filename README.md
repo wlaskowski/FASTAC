@@ -180,5 +180,7 @@ Its value is integration: it combines common protein FASTA checks into one small
 | Wojciech Moryl | [@wojciech-moryl](https://github.com/Fair0n) |
 | Karolina Winczewska | [@KarolinaWinczewska](https://github.com/KaWinczewska) |
 
-<img width="512" height="512" alt="ProFact" src="https://github.com/user-attachments/assets/0e32c2e5-2076-451b-b036-18cb15cb10f3" />
+<p align="center">
+  <img width="300" height="300" alt="ProFact" src="https://github.com/user-attachments/assets/0e32c2e5-2076-451b-b036-18cb15cb10f3" />
+</p>
 
