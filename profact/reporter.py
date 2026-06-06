@@ -593,6 +593,48 @@ def format_duplicates_report(data, file_path, output_format):
                 f"{i}\t{cluster['length']}\t{cluster['count']}\t{','.join(cluster['ids'])}"
             )
         return "\n".join(lines)
+    elif output_format == "html":
+        lines = [
+            "<!DOCTYPE html>",
+            "<html>",
+            "<head>",
+            "<title>Duplicate report</title>",
+            "<style>",
+            "table { border-collapse: collapse; }",
+            "th, td { border: 1px solid black; padding: 4px; }",
+            "</style>",
+            "</head>",
+            "<body>",
+            f"<h1>Duplicate report for {file_path}</h1>",
+            "<h2>Summary</h2>",
+            "<table>",
+            "<tr><th>Metric</th><th>Value</th></tr>",
+            f"<tr><td>Total records</td><td>{data['total_records']}</td></tr>",
+            f"<tr><td>Duplicate IDs</td><td>{data['duplicate_id_count']}</td></tr>",
+            f"<tr><td>Identical sequence clusters</td><td>{data['identical_sequence_cluster_count']}</td></tr>",
+            "</table>",
+            "<h2>Duplicate IDs</h2>",
+            "<table>",
+            "<tr><th>ID</th><th>Count</th></tr>",
+        ]
+
+        for seq_id, count in sorted(data["duplicate_ids"].items()):
+            lines.append(f"<tr><td>{seq_id}</td><td>{count}</td></tr>")
+
+        lines.extend([
+            "</table>",
+            "<h2>Identical sequence clusters</h2>",
+            "<table>",
+            "<tr><th>Cluster</th><th>Length</th><th>Count</th><th>IDs</th></tr>",
+        ])
+
+        for i, cluster in enumerate(data["identical_sequence_clusters"], start=1):
+            lines.append(
+                f"<tr><td>{i}</td><td>{cluster['length']}</td><td>{cluster['count']}</td><td>{', '.join(cluster['ids'])}</td></tr>"
+            )
+
+        lines.extend(["</table>", "</body>", "</html>"])
+        return "\n".join(lines)
     else:
         lines = [
             f"=== Duplicate report for {file_path} ===",
@@ -629,6 +671,62 @@ def format_compare_report(data, output_format):
             lines.append(
                 f"changed\t{item['id']}\t{item['old_length']}\t{item['new_length']}"
             )
+        return "\n".join(lines)
+    elif output_format == "html":
+        summary = data["summary"]
+        lines = [
+            "<!DOCTYPE html>",
+            "<html>",
+            "<head>",
+            "<title>Comparison report</title>",
+            "<style>",
+            "table { border-collapse: collapse; }",
+            "th, td { border: 1px solid black; padding: 4px; }",
+            "</style>",
+            "</head>",
+            "<body>",
+            "<h1>Comparison report</h1>",
+            "<h2>Summary</h2>",
+            "<table>",
+            "<tr><th>Metric</th><th>Value</th></tr>",
+        ]
+
+        for metric, value in summary.items():
+            lines.append(f"<tr><td>{metric}</td><td>{value}</td></tr>")
+
+        lines.extend([
+            "</table>",
+            "<h2>Added IDs</h2>",
+            "<table>",
+            "<tr><th>ID</th><th>New length</th></tr>",
+        ])
+
+        for item in data["added_ids"]:
+            lines.append(f"<tr><td>{item['id']}</td><td>{item['new_length']}</td></tr>")
+
+        lines.extend([
+            "</table>",
+            "<h2>Removed IDs</h2>",
+            "<table>",
+            "<tr><th>ID</th><th>Old length</th></tr>",
+        ])
+
+        for item in data["removed_ids"]:
+            lines.append(f"<tr><td>{item['id']}</td><td>{item['old_length']}</td></tr>")
+
+        lines.extend([
+            "</table>",
+            "<h2>Changed sequences</h2>",
+            "<table>",
+            "<tr><th>ID</th><th>Old length</th><th>New length</th></tr>",
+        ])
+
+        for item in data["changed_sequences"]:
+            lines.append(
+                f"<tr><td>{item['id']}</td><td>{item['old_length']}</td><td>{item['new_length']}</td></tr>"
+            )
+
+        lines.extend(["</table>", "</body>", "</html>"])
         return "\n".join(lines)
     else:
         summary = data["summary"]

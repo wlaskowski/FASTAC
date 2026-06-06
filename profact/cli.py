@@ -5,7 +5,7 @@ from .parser import read_fasta, validate_record, FastaParseError
 from .duplicates import analyze_duplicates
 from .compare import compare_files
 from .stats import analyze_stats
-from .reporter import (
+from .reporter_old import (
     stats_to_text,
     stats_to_tsv,
     stats_to_json,
@@ -178,14 +178,14 @@ def main():
 
     dup_parser = subparsers.add_parser("duplicates", help="Detect duplicate IDs and identical sequences")
     dup_parser.add_argument("-i", "--input", dest="fasta_file", required=True, help="Input FASTA file (.fa, .fasta, .faa, .gz)")
-    dup_parser.add_argument("-fmt", "--format", choices=["text", "json", "tsv"], default="text", help="Output format")
+    dup_parser.add_argument("-fmt", "--format", choices=["text", "json", "tsv", "html"], default="text", help="Output format")
     dup_parser.add_argument("-o", "--output", help="Output file (default: stdout)")
     dup_parser.set_defaults(func=cmd_duplicates)
 
     cmp_parser = subparsers.add_parser("compare", help="Compare two protein FASTA files")
     cmp_parser.add_argument("-f1", "--file_1", metavar="FILE_1", dest="old_fasta", required=True, help="First FASTA file")
     cmp_parser.add_argument("-f2", "--file_2", metavar="FILE_2", dest="new_fasta", required=True, help="Second FASTA file")
-    cmp_parser.add_argument("-fmt", "--format", choices=["text", "json", "tsv"], default="text", help="Output format")
+    cmp_parser.add_argument("-fmt", "--format", choices=["text", "json", "tsv", "html"], default="text", help="Output format")
     cmp_parser.add_argument("-o", "--output", help="Output file (default: stdout)")
     cmp_parser.set_defaults(func=cmd_compare)
 
