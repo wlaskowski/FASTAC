@@ -6,12 +6,18 @@ build-backend = "setuptools.build_meta"
 name = "profact"
 version = "0.1.0"
 description = "Protein FASTA analysis and comparison tool"
-authors = [{name = "Wojciech Laskowski, Wojciech Moryl, Karolina Winczewska"}]
+authors = [
+    {name = "Wojciech Laskowski"},
+    {name = "Wojciech Moryl"},
+    {name = "Karolina Winczewska"},
+]
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = []
-scripts = {profact = "profact.cli:main"}
+
+[project.scripts]
+profact = "profact.cli:main"
 
 [project.optional-dependencies]
 test = ["pytest>=7.0"]
