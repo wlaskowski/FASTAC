@@ -25,13 +25,23 @@ ProFACT combines common protein FASTA quality-control tasks into one small, test
   - changed duplicate clusters
 - Output formats: text, TSV and JSON for all commands; HTML for statistics and full reports
 - Pure Python, no heavy bioinformatics dependencies
-- Local installation via `pip install -e .`
+- Installation from github via `pip install git+https://github.com/wlaskowski/ProFACT.git`
 
 ---
 
 ## Installation
 
 ```bash
+pip install git+https://github.com/wlaskowski/ProFACT.git
+```
+
+After installation, the profact command is available globally.
+
+For development (editable mode):
+
+```
+git clone https://github.com/wlaskowski/ProFACT.git
+cd ProFACT
 pip install -e .
 ```
 
