@@ -5,7 +5,7 @@ from .parser import read_fasta, validate_record, FastaParseError
 from .duplicates import analyze_duplicates
 from .compare import compare_files
 from .stats import analyze_stats
-from .reporter_old import (
+from .reporter import (
     stats_to_text,
     stats_to_tsv,
     stats_to_json,
