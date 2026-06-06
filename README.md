@@ -2,6 +2,10 @@
 
 > A pip-installable Python CLI for protein FASTA quality control, duplicate detection and dataset comparison.
 
+<p align="center">
+  <img width="300" height="300" alt="ProFact" src="https://github.com/user-attachments/assets/0e32c2e5-2076-451b-b036-18cb15cb10f3" />
+</p>
+
 ## Overview
 
 Bioinformatics workflows often use protein FASTA files after downloading data from UniProt, Swiss-Prot, RefSeq or Ensembl/NCBI, filtering protein datasets, or running protein prediction pipelines. Checking quality and comparing two FASTA datasets often requires separate shell commands or custom scripts.
@@ -179,8 +183,3 @@ Its value is integration: it combines common protein FASTA checks into one small
 | Wojciech Laskowski | [@wlaskowski](https://github.com/wlaskowski) |
 | Wojciech Moryl | [@wojciech-moryl](https://github.com/Fair0n) |
 | Karolina Winczewska | [@KarolinaWinczewska](https://github.com/KaWinczewska) |
-
-<p align="center">
-  <img width="300" height="300" alt="ProFact" src="https://github.com/user-attachments/assets/0e32c2e5-2076-451b-b036-18cb15cb10f3" />
-</p>
-
