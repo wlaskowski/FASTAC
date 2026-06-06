@@ -72,10 +72,18 @@ profact compare -f1 raw_proteins.fasta -f2 filtered_proteins.fasta
 profact compare -f1 old_uniprot.fasta -f2 new_uniprot.fasta -fmt json -o compare.json
 
 # Generate a full HTML report
-profact report -i proteins.fasta -fmt html -o report.html
+profact report -i proteins.fasta -fmt html -o output/report.html
 
 # Generate a full text report
 profact report -i proteins.fasta
+```
+
+Generated files can be kept in `output/`, for example:
+
+```bash
+profact stats -i data/proteins.fasta -fmt json -o output/stats.json
+profact validate -i data/proteins.fasta -fmt tsv -o output/validation.tsv
+profact compare -f1 data/old.fasta -f2 data/new.fasta -fmt json -o output/compare.json
 ```
 
 ---

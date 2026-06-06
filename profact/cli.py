@@ -23,7 +23,9 @@ from .reporter import (
 
 def write_output(output_str, output_file):
     if output_file:
-        Path(output_file).write_text(output_str)
+        output_path = Path(output_file)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(output_str)
     else:
         print(output_str)
 
