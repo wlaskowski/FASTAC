@@ -8,7 +8,4 @@ dist/
 *.egg-info/
 output/*
 !output/.gitkeep
-report.html
-*.tsv
-*.json
 *.txt
