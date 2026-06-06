@@ -1,4 +1,3 @@
-<img width="1254" height="1254" alt="ProFact" src="https://github.com/user-attachments/assets/0e32c2e5-2076-451b-b036-18cb15cb10f3" />
 # ProFACT - Protein FASTA Analysis and Comparison Tool
 
 > A pip-installable Python CLI for protein FASTA quality control, duplicate detection and dataset comparison.
@@ -180,3 +179,6 @@ Its value is integration: it combines common protein FASTA checks into one small
 | Wojciech Laskowski | [@wlaskowski](https://github.com/wlaskowski) |
 | Wojciech Moryl | [@wojciech-moryl](https://github.com/Fair0n) |
 | Karolina Winczewska | [@KarolinaWinczewska](https://github.com/KaWinczewska) |
+
+<img width="512" height="512" alt="ProFact" src="https://github.com/user-attachments/assets/0e32c2e5-2076-451b-b036-18cb15cb10f3" />
+
