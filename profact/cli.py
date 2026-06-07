@@ -172,7 +172,7 @@ def main():
 
     val_parser = subparsers.add_parser("validate", help="Validate protein FASTA records")
     val_parser.add_argument("-i", "--input", dest="fasta_file", required=True, help="Input FASTA file (.fa, .fasta, .faa, .gz)")
-    val_parser.add_argument("-fmt", "--format", choices=["text", "json", "tsv"], default="text", help="Output format")
+    val_parser.add_argument("-fmt", "--format", choices=["text", "json", "tsv", "html"], default="text", help="Output format")
     val_parser.add_argument("-o", "--output", help="Output file (default: stdout)")
     val_parser.set_defaults(func=cmd_validate)
 
