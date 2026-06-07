@@ -555,7 +555,7 @@ def full_report_to_tsv(data):
     return "\n".join(lines)
 
 def format_validation_report(file_path, validated, summary, output_format):
-    """Format validation results into text, tsv, or json."""
+    """Format validation results into text, tsv, json, or html."""
     if output_format == "json":
         return json.dumps({
             "file": file_path,
@@ -567,7 +567,64 @@ def format_validation_report(file_path, validated, summary, output_format):
         for v in validated:
             lines.append(f"{v['id']}\t{v['valid']}\t{';'.join(v['errors'])}\t{';'.join(v['warnings'])}\t{v['has_x']}\t{v['has_stop']}\t{v['is_empty']}")
         return "\n".join(lines)
-    else:
+    elif output_format == "html":
+        # Use the same CSS and card layout as stats and full report
+        lines = [
+            "<!DOCTYPE html>",
+            "<html>",
+            "<head>",
+            "<title>Validation report</title>",
+            "<style>",
+            _html_styles(),
+            "</style>",
+            "</head>",
+            "<body>",
+            "<main>",
+            "<header>",
+            "<h1>Validation report</h1>",
+            f"<p class=\"muted\">File: {escape(str(file_path))}</p>",
+            "</header>",
+        ]
+        # Summary cards
+        lines.extend(_cards([
+            ("Total records", summary["total_records"]),
+            ("Valid records", summary["valid_records"]),
+            ("Invalid records", summary["invalid_records"]),
+            ("Records with X", summary["records_with_X"]),
+            ("Records with *", summary["records_with_stop"]),
+            ("Empty records", summary["empty_records"]),
+        ]))
+        # Per-record table
+        lines.extend([
+            "<h2>Per‑record details</h2>",
+            "<table>",
+            "<thead>",
+            "<tr><th>ID</th><th>Length</th><th>Valid</th><th>Errors</th><th>Warnings</th></tr>",
+            "</thead>",
+            "<tbody>",
+        ])
+        for v in validated:
+            valid_class = "status-ok" if v["valid"] else "status-warn"
+            errors_str = escape("<br>".join(v["errors"])) if v["errors"] else "—"
+            warnings_str = escape("<br>".join(v["warnings"])) if v["warnings"] else "—"
+            lines.append(
+                f"<tr class=\"{valid_class}\">"
+                f"<td>{escape(v['id'])}</td>"
+                f"<td>{v['sequence_length']}</td>"
+                f"<td>{v['valid']}</td>"
+                f"<td>{errors_str}</td>"
+                f"<td>{warnings_str}</td>"
+                "</tr>"
+            )
+        lines.extend([
+            "</tbody>",
+            "</table>",
+            "</main>",
+            "</body>",
+            "</html>",
+        ])
+        return "\n".join(lines)
+    else:  # text
         lines = [f"=== Validation report for {file_path} ===",
                  f"Total records: {summary['total_records']}",
                  f"Valid: {summary['valid_records']}, Invalid: {summary['invalid_records']}",
@@ -580,7 +637,6 @@ def format_validation_report(file_path, validated, summary, output_format):
                 for warn in v["warnings"]:
                     lines.append(f"  WARN:  {warn}")
         return "\n".join(lines)
-
 
 def format_duplicates_report(data, file_path, output_format):
     """Format duplicate analysis results into text, tsv, or json."""
