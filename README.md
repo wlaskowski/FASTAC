@@ -27,7 +27,7 @@ ProFACT combines common protein FASTA quality-control tasks into one small, test
   - changed sequences
   - changed sequence lengths
   - changed duplicate clusters
-- Output formats: text, TSV and JSON for all commands; HTML for statistics and full reports
+- Output formats: text, TSV, JSON and HTML for all commands
 - Pure Python, no heavy bioinformatics dependencies
 - Installation from GitHub via `pip install git+https://github.com/wlaskowski/ProFACT.git`
 
@@ -75,7 +75,8 @@ To run tests and generate all example outputs:
 bash scripts/run_examples.sh
 ```
 
-This writes text, TSV, JSON and HTML outputs to `output/`.
+This writes text, TSV, JSON and HTML outputs for `stats`, `validate`,
+`duplicates`, `report` and `compare` to `output/`.
 
 You can also run selected analyses manually:
 
