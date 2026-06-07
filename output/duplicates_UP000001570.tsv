@@ -1,0 +1,9 @@
+section	metric	value
+summary	total_records	4288
+summary	duplicate_id_count	0
+summary	identical_sequence_cluster_count	0
+summary	records_in_identical_sequence_clusters	0
+
+section	id	occurrences
+
+section	cluster_no	length	count	ids

@@ -1,0 +1,35 @@
+section	metric	value
+summary_statistics	sequence_count	4403
+summary_statistics	total_length	1354442
+summary_statistics	min_length	8
+summary_statistics	max_length	2339
+summary_statistics	mean_length	307.6179877356348
+summary_statistics	median_length	271
+summary_statistics	n50	393
+
+section	amino_acid	count	percent
+amino_acid_composition	A	128750	9.51
+amino_acid_composition	C	15761	1.16
+amino_acid_composition	D	69702	5.15
+amino_acid_composition	E	78004	5.76
+amino_acid_composition	F	52741	3.89
+amino_acid_composition	G	99720	7.36
+amino_acid_composition	H	30742	2.27
+amino_acid_composition	I	81422	6.01
+amino_acid_composition	K	59713	4.41
+amino_acid_composition	L	144614	10.68
+amino_acid_composition	M	38292	2.83
+amino_acid_composition	N	53387	3.94
+amino_acid_composition	P	59971	4.43
+amino_acid_composition	Q	60162	4.44
+amino_acid_composition	R	74814	5.52
+amino_acid_composition	S	78568	5.80
+amino_acid_composition	T	73055	5.39
+amino_acid_composition	V	95748	7.07
+amino_acid_composition	W	20735	1.53
+amino_acid_composition	Y	38530	2.84
+amino_acid_composition	X	8	0.00
+amino_acid_composition	*	0	0.00
+amino_acid_composition	B	0	0.00
+amino_acid_composition	Z	0	0.00
+amino_acid_composition	J	0	0.00

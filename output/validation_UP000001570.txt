@@ -1,0 +1,7 @@
+=== Validation report for data/uniprotkb_proteome_UP000001570_2026_06_06.fasta ===
+Total records: 4288
+Valid: 4288, Invalid: 0
+Records with 'X': 1, with '*': 0, empty: 0
+
+> sp|O07005|YVEG_BACSU (len=156)
+  WARN:  Contains unknown residue 'X'

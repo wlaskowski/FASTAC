@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Statistics report</title>
+<style>
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+    font-family: Arial, Helvetica, sans-serif;
+}
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+}
+header {
+    margin-bottom: 24px;
+}
+h1 {
+    margin: 0 0 8px;
+    color: #111827;
+}
+h2 {
+    margin-top: 32px;
+    color: #111827;
+}
+.muted {
+    color: #6b7280;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+.card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+}
+.card .label {
+    color: #6b7280;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+.card .value {
+    margin-top: 6px;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+th, td {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 8px 10px;
+    text-align: left;
+}
+th {
+    background: #eef2f7;
+}
+tr:last-child td {
+    border-bottom: 0;
+}
+.bar-cell {
+    min-width: 180px;
+}
+.bar {
+    height: 10px;
+    background: #dbeafe;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.bar span {
+    display: block;
+    height: 100%;
+    background: #2563eb;
+}
+.status-ok {
+    color: #047857;
+    font-weight: 700;
+}
+.status-warn {
+    color: #b45309;
+    font-weight: 700;
+}
+.validation-table td {
+    color: #1f2937;
+    font-weight: 400;
+}
+.validation-table td.status-ok {
+    color: #047857;
+    font-weight: 700;
+}
+.validation-table td.status-warn {
+    color: #b45309;
+    font-weight: 700;
+}
+.ids {
+    line-height: 1.5;
+}
+.tag {
+    display: inline-block;
+    margin: 2px 4px 2px 0;
+    padding: 2px 6px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 999px;
+    color: #3730a3;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.sequence-preview {
+    max-width: 320px;
+    color: #6b7280;
+    font-family: monospace;
+    overflow-wrap: anywhere;
+}
+
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Statistics report</h1>
+<p class="muted">Protein FASTA summary statistics and amino acid composition.</p>
+</header>
+<section class="cards">
+<div class="card">
+<div class="label">Sequences</div>
+<div class="value">4403</div>
+</div>
+<div class="card">
+<div class="label">Total length</div>
+<div class="value">1354442</div>
+</div>
+<div class="card">
+<div class="label">N50</div>
+<div class="value">393</div>
+</div>
+<div class="card">
+<div class="label">Median length</div>
+<div class="value">271</div>
+</div>
+</section>
+<h2>Summary statistics</h2>
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Sequence Count</td><td>4403</td></tr>
+<tr><td>Total Length</td><td>1354442</td></tr>
+<tr><td>Min Length</td><td>8</td></tr>
+<tr><td>Max Length</td><td>2339</td></tr>
+<tr><td>Mean Length</td><td>307.6179877356348</td></tr>
+<tr><td>Median Length</td><td>271</td></tr>
+<tr><td>N50</td><td>393</td></tr>
+</table>
+<h2>Amino acid composition</h2>
+<table>
+<tr><th>AA</th><th>Count</th><th>Percent</th><th>Chart</th></tr>
+<tr><td>A</td><td>128750</td><td>9.51</td><td class="bar-cell"><div class="bar"><span style="width: 9.51%"></span></div></td></tr>
+<tr><td>C</td><td>15761</td><td>1.16</td><td class="bar-cell"><div class="bar"><span style="width: 1.16%"></span></div></td></tr>
+<tr><td>D</td><td>69702</td><td>5.15</td><td class="bar-cell"><div class="bar"><span style="width: 5.15%"></span></div></td></tr>
+<tr><td>E</td><td>78004</td><td>5.76</td><td class="bar-cell"><div class="bar"><span style="width: 5.76%"></span></div></td></tr>
+<tr><td>F</td><td>52741</td><td>3.89</td><td class="bar-cell"><div class="bar"><span style="width: 3.89%"></span></div></td></tr>
+<tr><td>G</td><td>99720</td><td>7.36</td><td class="bar-cell"><div class="bar"><span style="width: 7.36%"></span></div></td></tr>
+<tr><td>H</td><td>30742</td><td>2.27</td><td class="bar-cell"><div class="bar"><span style="width: 2.27%"></span></div></td></tr>
+<tr><td>I</td><td>81422</td><td>6.01</td><td class="bar-cell"><div class="bar"><span style="width: 6.01%"></span></div></td></tr>
+<tr><td>K</td><td>59713</td><td>4.41</td><td class="bar-cell"><div class="bar"><span style="width: 4.41%"></span></div></td></tr>
+<tr><td>L</td><td>144614</td><td>10.68</td><td class="bar-cell"><div class="bar"><span style="width: 10.68%"></span></div></td></tr>
+<tr><td>M</td><td>38292</td><td>2.83</td><td class="bar-cell"><div class="bar"><span style="width: 2.83%"></span></div></td></tr>
+<tr><td>N</td><td>53387</td><td>3.94</td><td class="bar-cell"><div class="bar"><span style="width: 3.94%"></span></div></td></tr>
+<tr><td>P</td><td>59971</td><td>4.43</td><td class="bar-cell"><div class="bar"><span style="width: 4.43%"></span></div></td></tr>
+<tr><td>Q</td><td>60162</td><td>4.44</td><td class="bar-cell"><div class="bar"><span style="width: 4.44%"></span></div></td></tr>
+<tr><td>R</td><td>74814</td><td>5.52</td><td class="bar-cell"><div class="bar"><span style="width: 5.52%"></span></div></td></tr>
+<tr><td>S</td><td>78568</td><td>5.80</td><td class="bar-cell"><div class="bar"><span style="width: 5.80%"></span></div></td></tr>
+<tr><td>T</td><td>73055</td><td>5.39</td><td class="bar-cell"><div class="bar"><span style="width: 5.39%"></span></div></td></tr>
+<tr><td>V</td><td>95748</td><td>7.07</td><td class="bar-cell"><div class="bar"><span style="width: 7.07%"></span></div></td></tr>
+<tr><td>W</td><td>20735</td><td>1.53</td><td class="bar-cell"><div class="bar"><span style="width: 1.53%"></span></div></td></tr>
+<tr><td>Y</td><td>38530</td><td>2.84</td><td class="bar-cell"><div class="bar"><span style="width: 2.84%"></span></div></td></tr>
+<tr><td>X</td><td>8</td><td>0.00</td><td class="bar-cell"><div class="bar"><span style="width: 0.00%"></span></div></td></tr>
+<tr><td>*</td><td>0</td><td>0.00</td><td class="bar-cell"><div class="bar"><span style="width: 0.00%"></span></div></td></tr>
+<tr><td>B</td><td>0</td><td>0.00</td><td class="bar-cell"><div class="bar"><span style="width: 0.00%"></span></div></td></tr>
+<tr><td>Z</td><td>0</td><td>0.00</td><td class="bar-cell"><div class="bar"><span style="width: 0.00%"></span></div></td></tr>
+<tr><td>J</td><td>0</td><td>0.00</td><td class="bar-cell"><div class="bar"><span style="width: 0.00%"></span></div></td></tr>
+</table>
+</main>
+</body>
+</html>

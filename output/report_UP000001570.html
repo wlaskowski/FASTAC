@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ProFACT full report</title>
+<style>
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+    font-family: Arial, Helvetica, sans-serif;
+}
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+}
+header {
+    margin-bottom: 24px;
+}
+h1 {
+    margin: 0 0 8px;
+    color: #111827;
+}
+h2 {
+    margin-top: 32px;
+    color: #111827;
+}
+.muted {
+    color: #6b7280;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+.card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+}
+.card .label {
+    color: #6b7280;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+.card .value {
+    margin-top: 6px;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+th, td {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 8px 10px;
+    text-align: left;
+}
+th {
+    background: #eef2f7;
+}
+tr:last-child td {
+    border-bottom: 0;
+}
+.bar-cell {
+    min-width: 180px;
+}
+.bar {
+    height: 10px;
+    background: #dbeafe;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.bar span {
+    display: block;
+    height: 100%;
+    background: #2563eb;
+}
+.status-ok {
+    color: #047857;
+    font-weight: 700;
+}
+.status-warn {
+    color: #b45309;
+    font-weight: 700;
+}
+.validation-table td {
+    color: #1f2937;
+    font-weight: 400;
+}
+.validation-table td.status-ok {
+    color: #047857;
+    font-weight: 700;
+}
+.validation-table td.status-warn {
+    color: #b45309;
+    font-weight: 700;
+}
+.ids {
+    line-height: 1.5;
+}
+.tag {
+    display: inline-block;
+    margin: 2px 4px 2px 0;
+    padding: 2px 6px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 999px;
+    color: #3730a3;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.sequence-preview {
+    max-width: 320px;
+    color: #6b7280;
+    font-family: monospace;
+    overflow-wrap: anywhere;
+}
+
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>ProFACT full report</h1>
+<p class="muted">File: data/uniprotkb_proteome_UP000001570_2026_06_06.fasta</p>
+</header>
+<section class="cards">
+<div class="card">
+<div class="label">Sequences</div>
+<div class="value">4288</div>
+</div>
+<div class="card">
+<div class="label">Total length</div>
+<div class="value">1240167</div>
+</div>
+<div class="card">
+<div class="label">N50</div>
+<div class="value">376</div>
+</div>
+<div class="card">
+<div class="label">Validation</div>
+<div class="value">OK</div>
+</div>
+<div class="card">
+<div class="label">Duplicate clusters</div>
+<div class="value">0</div>
+</div>
+</section>
+<h2>Summary statistics</h2>
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Sequence Count</td><td>4288</td></tr>
+<tr><td>Total Length</td><td>1240167</td></tr>
+<tr><td>Min Length</td><td>20</td></tr>
+<tr><td>Max Length</td><td>5488</td></tr>
+<tr><td>Mean Length</td><td>289.2180503731343</td></tr>
+<tr><td>Median Length</td><td>250.5</td></tr>
+<tr><td>N50</td><td>376</td></tr>
+</table>
+<h2>Amino acid composition</h2>
+<table>
+<tr><th>AA</th><th>Count</th><th>Percent</th><th>Chart</th></tr>
+<tr><td>A</td><td>95213</td><td>7.68</td><td class="bar-cell"><div class="bar"><span style="width: 7.68%"></span></div></td></tr>
+<tr><td>C</td><td>9775</td><td>0.79</td><td class="bar-cell"><div class="bar"><span style="width: 0.79%"></span></div></td></tr>
+<tr><td>D</td><td>64298</td><td>5.18</td><td class="bar-cell"><div class="bar"><span style="width: 5.18%"></span></div></td></tr>
+<tr><td>E</td><td>90007</td><td>7.26</td><td class="bar-cell"><div class="bar"><span style="width: 7.26%"></span></div></td></tr>
+<tr><td>F</td><td>55826</td><td>4.50</td><td class="bar-cell"><div class="bar"><span style="width: 4.50%"></span></div></td></tr>
+<tr><td>G</td><td>85696</td><td>6.91</td><td class="bar-cell"><div class="bar"><span style="width: 6.91%"></span></div></td></tr>
+<tr><td>H</td><td>28149</td><td>2.27</td><td class="bar-cell"><div class="bar"><span style="width: 2.27%"></span></div></td></tr>
+<tr><td>I</td><td>91337</td><td>7.36</td><td class="bar-cell"><div class="bar"><span style="width: 7.36%"></span></div></td></tr>
+<tr><td>K</td><td>87737</td><td>7.07</td><td class="bar-cell"><div class="bar"><span style="width: 7.07%"></span></div></td></tr>
+<tr><td>L</td><td>119779</td><td>9.66</td><td class="bar-cell"><div class="bar"><span style="width: 9.66%"></span></div></td></tr>
+<tr><td>M</td><td>34604</td><td>2.79</td><td class="bar-cell"><div class="bar"><span style="width: 2.79%"></span></div></td></tr>
+<tr><td>N</td><td>49022</td><td>3.95</td><td class="bar-cell"><div class="bar"><span style="width: 3.95%"></span></div></td></tr>
+<tr><td>P</td><td>45433</td><td>3.66</td><td class="bar-cell"><div class="bar"><span style="width: 3.66%"></span></div></td></tr>
+<tr><td>Q</td><td>47600</td><td>3.84</td><td class="bar-cell"><div class="bar"><span style="width: 3.84%"></span></div></td></tr>
+<tr><td>R</td><td>50748</td><td>4.09</td><td class="bar-cell"><div class="bar"><span style="width: 4.09%"></span></div></td></tr>
+<tr><td>S</td><td>77878</td><td>6.28</td><td class="bar-cell"><div class="bar"><span style="width: 6.28%"></span></div></td></tr>
+<tr><td>T</td><td>67215</td><td>5.42</td><td class="bar-cell"><div class="bar"><span style="width: 5.42%"></span></div></td></tr>
+<tr><td>V</td><td>83687</td><td>6.75</td><td class="bar-cell"><div class="bar"><span style="width: 6.75%"></span></div></td></tr>
+<tr><td>W</td><td>12836</td><td>1.04</td><td class="bar-cell"><div class="bar"><span style="width: 1.04%"></span></div></td></tr>
+<tr><td>Y</td><td>43326</td><td>3.49</td><td class="bar-cell"><div class="bar"><span style="width: 3.49%"></span></div></td></tr>
+<tr><td>X</td><td>1</td><td>0.00</td><td class="bar-cell"><div class="bar"><span style="width: 0.00%"></span></div></td></tr>
+<tr><td>*</td><td>0</td><td>0.00</td><td class="bar-cell"><div class="bar"><span style="width: 0.00%"></span></div></td></tr>
+<tr><td>B</td><td>0</td><td>0.00</td><td class="bar-cell"><div class="bar"><span style="width: 0.00%"></span></div></td></tr>
+<tr><td>Z</td><td>0</td><td>0.00</td><td class="bar-cell"><div class="bar"><span style="width: 0.00%"></span></div></td></tr>
+<tr><td>J</td><td>0</td><td>0.00</td><td class="bar-cell"><div class="bar"><span style="width: 0.00%"></span></div></td></tr>
+</table>
+<h2>Validation</h2>
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Total Records</td><td>4288</td></tr>
+<tr><td>Valid Records</td><td>4288</td></tr>
+<tr><td>Invalid Records</td><td>0</td></tr>
+<tr><td>Records With X</td><td>1</td></tr>
+<tr><td>Records With Stop</td><td>0</td></tr>
+<tr><td>Empty Records</td><td>0</td></tr>
+</table>
+<h2>Duplicates</h2>
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Total Records</td><td>4288</td></tr>
+<tr><td>Duplicate Id Count</td><td>0</td></tr>
+<tr><td>Identical Sequence Cluster Count</td><td>0</td></tr>
+<tr><td>Records In Identical Sequence Clusters</td><td>0</td></tr>
+</table>
+<p class="muted">No duplicate IDs found.</p>
+<p class="muted">No identical sequence clusters found.</p>
+</main>
+</body>
+</html>

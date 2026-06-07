@@ -1,0 +1,4 @@
+=== Duplicate report for data/uniprotkb_proteome_UP000001570_2026_06_06.fasta ===
+Total records: 4288
+Duplicate IDs: 0
+Identical sequence clusters: 0

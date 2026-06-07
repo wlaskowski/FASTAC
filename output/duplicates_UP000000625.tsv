@@ -1,0 +1,22 @@
+section	metric	value
+summary	total_records	4403
+summary	duplicate_id_count	0
+summary	identical_sequence_cluster_count	13
+summary	records_in_identical_sequence_clusters	54
+
+section	id	occurrences
+
+section	cluster_no	length	count	ids
+identical_sequence_clusters	1	35	2	sp|P0DPD0|LDRA_ECOLI,sp|P0DPD1|LDRC_ECOLI
+identical_sequence_clusters	2	37	2	sp|P0DPO4|YNAM_ECOLI,sp|P0DPO8|YNFT_ECOLI
+identical_sequence_clusters	3	91	4	sp|A0A385XJ53|INSA9_ECOLI,sp|P0CF07|INSA1_ECOLI,sp|P0CF11|INSA5_ECOLI,sp|P0CF12|INSA6_ECOLI
+identical_sequence_clusters	4	91	3	sp|P0CF08|INSA2_ECOLI,sp|P0CF09|INSA3_ECOLI,sp|P0CF10|INSA4_ECOLI
+identical_sequence_clusters	5	99	5	sp|P0CF66|INSE1_ECOLI,sp|P0CF67|INSE2_ECOLI,sp|P0CF68|INSE3_ECOLI,sp|P0CF69|INSE4_ECOLI,sp|P0CF70|INSE5_ECOLI
+identical_sequence_clusters	6	121	6	sp|P0CF40|INSC1_ECOLI,sp|P0CF41|INSC2_ECOLI,sp|P0CF42|INSC3_ECOLI,sp|P0CF43|INSC4_ECOLI,sp|P0CF44|INSC5_ECOLI,sp|P0CF45|INSC6_ECOLI
+identical_sequence_clusters	7	167	4	sp|A0A385XJL4|INSB9_ECOLI,sp|P0CF25|INSB1_ECOLI,sp|P0CF28|INSB5_ECOLI,sp|P0CF29|INSB6_ECOLI
+identical_sequence_clusters	8	167	2	sp|P0CF26|INSB2_ECOLI,sp|P0CF27|INSB3_ECOLI
+identical_sequence_clusters	9	288	5	sp|P0CF79|INSF1_ECOLI,sp|P0CF80|INSF2_ECOLI,sp|P0CF81|INSF3_ECOLI,sp|P0CF82|INSF4_ECOLI,sp|P0CF83|INSF5_ECOLI
+identical_sequence_clusters	10	301	6	sp|P0CF53|INSD1_ECOLI,sp|P0CF54|INSD2_ECOLI,sp|P0CF55|INSD3_ECOLI,sp|P0CF56|INSD4_ECOLI,sp|P0CF57|INSD5_ECOLI,sp|P0CF58|INSD6_ECOLI
+identical_sequence_clusters	11	326	10	sp|A0A385XJE6|INH21_ECOLI,sp|P0CE49|INSH1_ECOLI,sp|P0CE50|INSH2_ECOLI,sp|P0CE51|INSH3_ECOLI,sp|P0CE52|INSH4_ECOLI,sp|P0CE54|INSH7_ECOLI,sp|P0CE55|INSH8_ECOLI,sp|P0CE56|INSH9_ECOLI,sp|P0CE57|INH10_ECOLI,sp|P0CE58|INH11_ECOLI
+identical_sequence_clusters	12	370	3	sp|P0CF91|INSL1_ECOLI,sp|P0CF92|INSL2_ECOLI,sp|P0CF93|INSL3_ECOLI
+identical_sequence_clusters	13	383	2	sp|P0CF89|INSI3_ECOLI,sp|P0CF90|INSI4_ECOLI

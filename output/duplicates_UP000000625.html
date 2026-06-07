@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Duplicate report</title>
+<style>
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #1f2937;
+    font-family: Arial, Helvetica, sans-serif;
+}
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+}
+header {
+    margin-bottom: 24px;
+}
+h1 {
+    margin: 0 0 8px;
+    color: #111827;
+}
+h2 {
+    margin-top: 32px;
+    color: #111827;
+}
+.muted {
+    color: #6b7280;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+.card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+}
+.card .label {
+    color: #6b7280;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+.card .value {
+    margin-top: 6px;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+th, td {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 8px 10px;
+    text-align: left;
+}
+th {
+    background: #eef2f7;
+}
+tr:last-child td {
+    border-bottom: 0;
+}
+.bar-cell {
+    min-width: 180px;
+}
+.bar {
+    height: 10px;
+    background: #dbeafe;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.bar span {
+    display: block;
+    height: 100%;
+    background: #2563eb;
+}
+.status-ok {
+    color: #047857;
+    font-weight: 700;
+}
+.status-warn {
+    color: #b45309;
+    font-weight: 700;
+}
+.validation-table td {
+    color: #1f2937;
+    font-weight: 400;
+}
+.validation-table td.status-ok {
+    color: #047857;
+    font-weight: 700;
+}
+.validation-table td.status-warn {
+    color: #b45309;
+    font-weight: 700;
+}
+.ids {
+    line-height: 1.5;
+}
+.tag {
+    display: inline-block;
+    margin: 2px 4px 2px 0;
+    padding: 2px 6px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 999px;
+    color: #3730a3;
+    font-size: 12px;
+    white-space: nowrap;
+}
+.sequence-preview {
+    max-width: 320px;
+    color: #6b7280;
+    font-family: monospace;
+    overflow-wrap: anywhere;
+}
+
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Duplicate report</h1>
+<p class="muted">File: data/uniprotkb_proteome_UP000000625_2026_06_06.fasta</p>
+</header>
+<section class="cards">
+<div class="card">
+<div class="label">Records</div>
+<div class="value">4403</div>
+</div>
+<div class="card">
+<div class="label">Duplicate IDs</div>
+<div class="value">0</div>
+</div>
+<div class="card">
+<div class="label">Sequence clusters</div>
+<div class="value">13</div>
+</div>
+<div class="card">
+<div class="label">Records in clusters</div>
+<div class="value">54</div>
+</div>
+</section>
+<h2>Summary</h2>
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Total Records</td><td>4403</td></tr>
+<tr><td>Duplicate Id Count</td><td>0</td></tr>
+<tr><td>Identical Sequence Cluster Count</td><td>13</td></tr>
+<tr><td>Records In Identical Sequence Clusters</td><td>54</td></tr>
+</table>
+<p class="muted">No duplicate IDs found.</p>
+<h3>Identical sequence clusters</h3>
+<table>
+<tr><th>#</th><th>Length</th><th>Records</th><th>IDs</th><th>Sequence preview</th></tr>
+<tr><td>1</td><td>35</td><td>2</td><td class="ids"><span class="tag">sp|P0DPD0|LDRA_ECOLI</span> <span class="tag">sp|P0DPD1|LDRC_ECOLI</span></td><td class="sequence-preview">MTLAQFAMIFWHDLAAPILAGIITAAIVSWWRNRK</td></tr>
+<tr><td>2</td><td>37</td><td>2</td><td class="ids"><span class="tag">sp|P0DPO4|YNAM_ECOLI</span> <span class="tag">sp|P0DPO8|YNFT_ECOLI</span></td><td class="sequence-preview">MNSILIITSLLIIFSIFSHALIKLGIGISNNPDKTDV</td></tr>
+<tr><td>3</td><td>91</td><td>4</td><td class="ids"><span class="tag">sp|A0A385XJ53|INSA9_ECOLI</span> <span class="tag">sp|P0CF07|INSA1_ECOLI</span> <span class="tag">sp|P0CF11|INSA5_ECOLI</span> <span class="tag">sp|P0CF12|INSA6_ECOLI</span></td><td class="sequence-preview">MASVSISCPSCSATDGVVRNGKSTAGHQRYLCSHCRKTWQLQFTYTASQPGTHQKIIDMA...</td></tr>
+<tr><td>4</td><td>91</td><td>3</td><td class="ids"><span class="tag">sp|P0CF08|INSA2_ECOLI</span> <span class="tag">sp|P0CF09|INSA3_ECOLI</span> <span class="tag">sp|P0CF10|INSA4_ECOLI</span></td><td class="sequence-preview">MASVSISCPSCSATDGVVRNGKSTAGHQRYLCSHCRKTWQLQFTYTASQPGTHQKIIDMA...</td></tr>
+<tr><td>5</td><td>99</td><td>5</td><td class="ids"><span class="tag">sp|P0CF66|INSE1_ECOLI</span> <span class="tag">sp|P0CF67|INSE2_ECOLI</span> <span class="tag">sp|P0CF68|INSE3_ECOLI</span> <span class="tag">sp|P0CF69|INSE4_ECOLI</span> <span class="tag">sp|P0CF70|INSE5_ECOLI</span></td><td class="sequence-preview">MTKTVSTSKKPRKQHSPEFRSEALKLAERIGVTAAARELSLYESQLYNWRSKQQNQQTSS...</td></tr>
+<tr><td>6</td><td>121</td><td>6</td><td class="ids"><span class="tag">sp|P0CF40|INSC1_ECOLI</span> <span class="tag">sp|P0CF41|INSC2_ECOLI</span> <span class="tag">sp|P0CF42|INSC3_ECOLI</span> <span class="tag">sp|P0CF43|INSC4_ECOLI</span> <span class="tag">sp|P0CF44|INSC5_ECOLI</span> <span class="tag">sp|P0CF45|INSC6_ECOLI</span></td><td class="sequence-preview">MIDVLGPEKRRRRTTQEKIAIVQQSFEPGMTVSLVARQHGVAASQLFLWRKQYQEGSLTA...</td></tr>
+<tr><td>7</td><td>167</td><td>4</td><td class="ids"><span class="tag">sp|A0A385XJL4|INSB9_ECOLI</span> <span class="tag">sp|P0CF25|INSB1_ECOLI</span> <span class="tag">sp|P0CF28|INSB5_ECOLI</span> <span class="tag">sp|P0CF29|INSB6_ECOLI</span></td><td class="sequence-preview">MPGNSPHYGRWPQHDFTSLKKLRPQSVTSRIQPGSDVIVCAEMDEQWGYVGAKSRQRWLF...</td></tr>
+<tr><td>8</td><td>167</td><td>2</td><td class="ids"><span class="tag">sp|P0CF26|INSB2_ECOLI</span> <span class="tag">sp|P0CF27|INSB3_ECOLI</span></td><td class="sequence-preview">MPGNRPHYGRWPQHDFPPFKKLRPQSVTSRIQPGSDVIVCAEMDEQWGYVGAKSRQRWLF...</td></tr>
+<tr><td>9</td><td>288</td><td>5</td><td class="ids"><span class="tag">sp|P0CF79|INSF1_ECOLI</span> <span class="tag">sp|P0CF80|INSF2_ECOLI</span> <span class="tag">sp|P0CF81|INSF3_ECOLI</span> <span class="tag">sp|P0CF82|INSF4_ECOLI</span> <span class="tag">sp|P0CF83|INSF5_ECOLI</span></td><td class="sequence-preview">MKYVFIEKHQAEFSIKAMCRVLRVARSGWYTWCQRRTRISTRQQFRQHCDSVVLAAFTRS...</td></tr>
+<tr><td>10</td><td>301</td><td>6</td><td class="ids"><span class="tag">sp|P0CF53|INSD1_ECOLI</span> <span class="tag">sp|P0CF54|INSD2_ECOLI</span> <span class="tag">sp|P0CF55|INSD3_ECOLI</span> <span class="tag">sp|P0CF56|INSD4_ECOLI</span> <span class="tag">sp|P0CF57|INSD5_ECOLI</span> <span class="tag">sp|P0CF58|INSD6_ECOLI</span></td><td class="sequence-preview">MDSARALIARGWGVSLVSRCLRVSRAQLHVILRRTDDWMDGRRSRHTDDTDVLLRIHHVI...</td></tr>
+<tr><td>11</td><td>326</td><td>10</td><td class="ids"><span class="tag">sp|A0A385XJE6|INH21_ECOLI</span> <span class="tag">sp|P0CE49|INSH1_ECOLI</span> <span class="tag">sp|P0CE50|INSH2_ECOLI</span> <span class="tag">sp|P0CE51|INSH3_ECOLI</span> <span class="tag">sp|P0CE52|INSH4_ECOLI</span> <span class="tag">sp|P0CE54|INSH7_ECOLI</span> <span class="tag">sp|P0CE55|INSH8_ECOLI</span> <span class="tag">sp|P0CE56|INSH9_ECOLI</span> <span class="tag">sp|P0CE57|INH10_ECOLI</span> <span class="tag">sp|P0CE58|INH11_ECOLI</span></td><td class="sequence-preview">MSHQLTFADSEFSSKRRQTRKEIFLSRMEQILPWQNMVEVIEPFYPKAGNGRRPYPLETM...</td></tr>
+<tr><td>12</td><td>370</td><td>3</td><td class="ids"><span class="tag">sp|P0CF91|INSL1_ECOLI</span> <span class="tag">sp|P0CF92|INSL2_ECOLI</span> <span class="tag">sp|P0CF93|INSL3_ECOLI</span></td><td class="sequence-preview">MNYSHDNWSAILAHIGKPEELDTSARNAGALTRRREIRDAATLLRLGLAYGPGGMSLREV...</td></tr>
+<tr><td>13</td><td>383</td><td>2</td><td class="ids"><span class="tag">sp|P0CF89|INSI3_ECOLI</span> <span class="tag">sp|P0CF90|INSI4_ECOLI</span></td><td class="sequence-preview">MRRTFTAEEKASVFELWKNGTGFSEIANILGSKPGTIFTMLRDTGGIKPHERKRAVAHLT...</td></tr>
+</table>
+</main>
+</body>
+</html>

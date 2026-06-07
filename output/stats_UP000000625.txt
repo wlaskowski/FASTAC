@@ -1,0 +1,37 @@
+=== Statistics report ===
+
+Summary statistics:
+sequence_count: 4403
+total_length: 1354442
+min_length: 8
+max_length: 2339
+mean_length: 307.6179877356348
+median_length: 271
+n50: 393
+
+Amino acid composition:
+A: count=128750, percent=9.51
+C: count=15761, percent=1.16
+D: count=69702, percent=5.15
+E: count=78004, percent=5.76
+F: count=52741, percent=3.89
+G: count=99720, percent=7.36
+H: count=30742, percent=2.27
+I: count=81422, percent=6.01
+K: count=59713, percent=4.41
+L: count=144614, percent=10.68
+M: count=38292, percent=2.83
+N: count=53387, percent=3.94
+P: count=59971, percent=4.43
+Q: count=60162, percent=4.44
+R: count=74814, percent=5.52
+S: count=78568, percent=5.80
+T: count=73055, percent=5.39
+V: count=95748, percent=7.07
+W: count=20735, percent=1.53
+Y: count=38530, percent=2.84
+X: count=8, percent=0.00
+*: count=0, percent=0.00
+B: count=0, percent=0.00
+Z: count=0, percent=0.00
+J: count=0, percent=0.00

@@ -1,0 +1,67 @@
+=== ProFACT full report ===
+
+File: data/uniprotkb_proteome_UP000000625_2026_06_06.fasta
+
+Summary statistics:
+sequence_count: 4403
+total_length: 1354442
+min_length: 8
+max_length: 2339
+mean_length: 307.6179877356348
+median_length: 271
+n50: 393
+
+Amino acid composition:
+A: count=128750, percent=9.51
+C: count=15761, percent=1.16
+D: count=69702, percent=5.15
+E: count=78004, percent=5.76
+F: count=52741, percent=3.89
+G: count=99720, percent=7.36
+H: count=30742, percent=2.27
+I: count=81422, percent=6.01
+K: count=59713, percent=4.41
+L: count=144614, percent=10.68
+M: count=38292, percent=2.83
+N: count=53387, percent=3.94
+P: count=59971, percent=4.43
+Q: count=60162, percent=4.44
+R: count=74814, percent=5.52
+S: count=78568, percent=5.80
+T: count=73055, percent=5.39
+V: count=95748, percent=7.07
+W: count=20735, percent=1.53
+Y: count=38530, percent=2.84
+X: count=8, percent=0.00
+*: count=0, percent=0.00
+B: count=0, percent=0.00
+Z: count=0, percent=0.00
+J: count=0, percent=0.00
+
+Validation:
+total_records: 4403
+valid_records: 4400
+invalid_records: 3
+records_with_X: 7
+records_with_stop: 0
+empty_records: 0
+
+Duplicates:
+total_records: 4403
+duplicate_id_count: 0
+identical_sequence_cluster_count: 13
+records_in_identical_sequence_clusters: 54
+identical_sequence_clusters:
+  Cluster 1: len=35, count=2, ids=sp|P0DPD0|LDRA_ECOLI, sp|P0DPD1|LDRC_ECOLI
+  Cluster 2: len=37, count=2, ids=sp|P0DPO4|YNAM_ECOLI, sp|P0DPO8|YNFT_ECOLI
+  Cluster 3: len=91, count=4, ids=sp|A0A385XJ53|INSA9_ECOLI, sp|P0CF07|INSA1_ECOLI, sp|P0CF11|INSA5_ECOLI, sp|P0CF12|INSA6_ECOLI
+  Cluster 4: len=91, count=3, ids=sp|P0CF08|INSA2_ECOLI, sp|P0CF09|INSA3_ECOLI, sp|P0CF10|INSA4_ECOLI
+  Cluster 5: len=99, count=5, ids=sp|P0CF66|INSE1_ECOLI, sp|P0CF67|INSE2_ECOLI, sp|P0CF68|INSE3_ECOLI, sp|P0CF69|INSE4_ECOLI, sp|P0CF70|INSE5_ECOLI
+  Cluster 6: len=121, count=6, ids=sp|P0CF40|INSC1_ECOLI, sp|P0CF41|INSC2_ECOLI, sp|P0CF42|INSC3_ECOLI, sp|P0CF43|INSC4_ECOLI, sp|P0CF44|INSC5_ECOLI, sp|P0CF45|INSC6_ECOLI
+  Cluster 7: len=167, count=4, ids=sp|A0A385XJL4|INSB9_ECOLI, sp|P0CF25|INSB1_ECOLI, sp|P0CF28|INSB5_ECOLI, sp|P0CF29|INSB6_ECOLI
+  Cluster 8: len=167, count=2, ids=sp|P0CF26|INSB2_ECOLI, sp|P0CF27|INSB3_ECOLI
+  Cluster 9: len=288, count=5, ids=sp|P0CF79|INSF1_ECOLI, sp|P0CF80|INSF2_ECOLI, sp|P0CF81|INSF3_ECOLI, sp|P0CF82|INSF4_ECOLI, sp|P0CF83|INSF5_ECOLI
+  Cluster 10: len=301, count=6, ids=sp|P0CF53|INSD1_ECOLI, sp|P0CF54|INSD2_ECOLI, sp|P0CF55|INSD3_ECOLI, sp|P0CF56|INSD4_ECOLI, sp|P0CF57|INSD5_ECOLI, sp|P0CF58|INSD6_ECOLI
+  Cluster 11: len=326, count=10, ids=sp|A0A385XJE6|INH21_ECOLI, sp|P0CE49|INSH1_ECOLI, sp|P0CE50|INSH2_ECOLI, sp|P0CE51|INSH3_ECOLI, sp|P0CE52|INSH4_ECOLI, sp|P0CE54|INSH7_ECOLI, sp|P0CE55|INSH8_ECOLI, sp|P0CE56|INSH9_ECOLI, sp|P0CE57|INH10_ECOLI, sp|P0CE58|INH11_ECOLI
+  Cluster 12: len=370, count=3, ids=sp|P0CF91|INSL1_ECOLI, sp|P0CF92|INSL2_ECOLI, sp|P0CF93|INSL3_ECOLI
+  Cluster 13: len=383, count=2, ids=sp|P0CF89|INSI3_ECOLI, sp|P0CF90|INSI4_ECOLI

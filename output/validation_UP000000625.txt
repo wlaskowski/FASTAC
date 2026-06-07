@@ -1,0 +1,25 @@
+=== Validation report for data/uniprotkb_proteome_UP000000625_2026_06_06.fasta ===
+Total records: 4403
+Valid: 4400, Invalid: 3
+Records with 'X': 7, with '*': 0, empty: 0
+
+> sp|P07658|FDHF_ECOLI (len=715)
+  ERROR: Invalid character(s): U
+> sp|P24183|FDNG_ECOLI (len=1015)
+  ERROR: Invalid character(s): U
+> sp|P32176|FDOG_ECOLI (len=1016)
+  ERROR: Invalid character(s): U
+> sp|P33369|MDTQ_ECOLI (len=478)
+  WARN:  Contains unknown residue 'X'
+> sp|P45766|YHDW_ECOLI (len=341)
+  WARN:  Contains unknown residue 'X'
+> sp|P75901|EFEU_ECOLI (len=276)
+  WARN:  Contains unknown residue 'X'
+> sp|P39901|YBFI_ECOLI (len=65)
+  WARN:  Contains unknown residue 'X'
+> sp|P76000|YCGI_ECOLI (len=147)
+  WARN:  Contains unknown residue 'X'
+> sp|P37003|YBFG_ECOLI (len=216)
+  WARN:  Contains unknown residue 'X'
+> sp|P58095|YPJI_ECOLI (len=90)
+  WARN:  Contains unknown residue 'X'

@@ -1,0 +1,53 @@
+=== ProFACT full report ===
+
+File: data/uniprotkb_proteome_UP000001570_2026_06_06.fasta
+
+Summary statistics:
+sequence_count: 4288
+total_length: 1240167
+min_length: 20
+max_length: 5488
+mean_length: 289.2180503731343
+median_length: 250.5
+n50: 376
+
+Amino acid composition:
+A: count=95213, percent=7.68
+C: count=9775, percent=0.79
+D: count=64298, percent=5.18
+E: count=90007, percent=7.26
+F: count=55826, percent=4.50
+G: count=85696, percent=6.91
+H: count=28149, percent=2.27
+I: count=91337, percent=7.36
+K: count=87737, percent=7.07
+L: count=119779, percent=9.66
+M: count=34604, percent=2.79
+N: count=49022, percent=3.95
+P: count=45433, percent=3.66
+Q: count=47600, percent=3.84
+R: count=50748, percent=4.09
+S: count=77878, percent=6.28
+T: count=67215, percent=5.42
+V: count=83687, percent=6.75
+W: count=12836, percent=1.04
+Y: count=43326, percent=3.49
+X: count=1, percent=0.00
+*: count=0, percent=0.00
+B: count=0, percent=0.00
+Z: count=0, percent=0.00
+J: count=0, percent=0.00
+
+Validation:
+total_records: 4288
+valid_records: 4288
+invalid_records: 0
+records_with_X: 1
+records_with_stop: 0
+empty_records: 0
+
+Duplicates:
+total_records: 4288
+duplicate_id_count: 0
+identical_sequence_cluster_count: 0
+records_in_identical_sequence_clusters: 0
