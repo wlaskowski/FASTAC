@@ -99,6 +99,18 @@ tr:last-child td {
     color: #b45309;
     font-weight: 700;
 }
+.validation-table td {
+    color: #1f2937;
+    font-weight: 400;
+}
+.validation-table td.status-ok {
+    color: #047857;
+    font-weight: 700;
+}
+.validation-table td.status-warn {
+    color: #b45309;
+    font-weight: 700;
+}
 .ids {
     line-height: 1.5;
 }
@@ -128,13 +140,13 @@ def _format_metric_name(metric):
 
 
 def _cards(metrics):
-    lines = ["<section class=\"cards\">"]
+    lines = ['<section class="cards">']
     for label, value in metrics:
         lines.extend(
             [
-                "<div class=\"card\">",
-                f"<div class=\"label\">{escape(str(label))}</div>",
-                f"<div class=\"value\">{escape(str(value))}</div>",
+                '<div class="card">',
+                f'<div class="label">{escape(str(label))}</div>',
+                f'<div class="value">{escape(str(value))}</div>',
                 "</div>",
             ]
         )
@@ -148,10 +160,7 @@ def _summary_table(summary):
         "<tr><th>Metric</th><th>Value</th></tr>",
     ]
     for metric, value in summary.items():
-        lines.append(
-            f"<tr><td>{escape(_format_metric_name(metric))}</td>"
-            f"<td>{escape(str(value))}</td></tr>"
-        )
+        lines.append(f"<tr><td>{escape(_format_metric_name(metric))}</td>" f"<td>{escape(str(value))}</td></tr>")
     lines.append("</table>")
     return lines
 
@@ -169,8 +178,8 @@ def _composition_table(composition):
             f"<td>{escape(str(aa))}</td>"
             f"<td>{values['count']}</td>"
             f"<td>{percent:.2f}</td>"
-            "<td class=\"bar-cell\">"
-            f"<div class=\"bar\"><span style=\"width: {width:.2f}%\"></span></div>"
+            '<td class="bar-cell">'
+            f'<div class="bar"><span style="width: {width:.2f}%"></span></div>'
             "</td>"
             "</tr>"
         )
@@ -184,10 +193,7 @@ def _metric_table(metrics):
         "<tr><th>Metric</th><th>Value</th></tr>",
     ]
     for metric, value in metrics.items():
-        lines.append(
-            f"<tr><td>{escape(_format_metric_name(metric))}</td>"
-            f"<td>{escape(str(value))}</td></tr>"
-        )
+        lines.append(f"<tr><td>{escape(_format_metric_name(metric))}</td>" f"<td>{escape(str(value))}</td></tr>")
     lines.append("</table>")
     return lines
 
@@ -205,7 +211,7 @@ def _duplicates_summary_table(duplicates):
 
 def _duplicate_ids_table(duplicate_ids):
     if not duplicate_ids:
-        return ["<p class=\"muted\">No duplicate IDs found.</p>"]
+        return ['<p class="muted">No duplicate IDs found.</p>']
 
     lines = [
         "<h3>Duplicate IDs</h3>",
@@ -213,16 +219,14 @@ def _duplicate_ids_table(duplicate_ids):
         "<tr><th>ID</th><th>Occurrences</th></tr>",
     ]
     for seq_id, count in sorted(duplicate_ids.items()):
-        lines.append(
-            f"<tr><td>{escape(str(seq_id))}</td><td>{escape(str(count))}</td></tr>"
-        )
+        lines.append(f"<tr><td>{escape(str(seq_id))}</td><td>{escape(str(count))}</td></tr>")
     lines.append("</table>")
     return lines
 
 
 def _duplicate_clusters_table(clusters):
     if not clusters:
-        return ["<p class=\"muted\">No identical sequence clusters found.</p>"]
+        return ['<p class="muted">No identical sequence clusters found.</p>']
 
     lines = [
         "<h3>Identical sequence clusters</h3>",
@@ -230,10 +234,7 @@ def _duplicate_clusters_table(clusters):
         "<tr><th>#</th><th>Length</th><th>Records</th><th>IDs</th><th>Sequence preview</th></tr>",
     ]
     for index, cluster in enumerate(clusters, start=1):
-        ids = " ".join(
-            f"<span class=\"tag\">{escape(str(seq_id))}</span>"
-            for seq_id in cluster["ids"]
-        )
+        ids = " ".join(f'<span class="tag">{escape(str(seq_id))}</span>' for seq_id in cluster["ids"])
         sequence = cluster.get("sequence", "")
         preview = sequence[:60] + ("..." if len(sequence) > 60 else "")
         lines.append(
@@ -241,8 +242,8 @@ def _duplicate_clusters_table(clusters):
             f"<td>{index}</td>"
             f"<td>{cluster['length']}</td>"
             f"<td>{cluster['count']}</td>"
-            f"<td class=\"ids\">{ids}</td>"
-            f"<td class=\"sequence-preview\">{escape(preview)}</td>"
+            f'<td class="ids">{ids}</td>'
+            f'<td class="sequence-preview">{escape(preview)}</td>'
             "</tr>"
         )
     lines.append("</table>")
@@ -317,7 +318,7 @@ def stats_to_html(data):
         "<main>",
         "<header>",
         "<h1>Statistics report</h1>",
-        "<p class=\"muted\">Protein FASTA summary statistics and amino acid composition.</p>",
+        '<p class="muted">Protein FASTA summary statistics and amino acid composition.</p>',
         "</header>",
     ]
 
@@ -334,7 +335,7 @@ def stats_to_html(data):
 
     lines.extend(
         [
-        "<h2>Summary statistics</h2>",
+            "<h2>Summary statistics</h2>",
         ]
     )
     lines.extend(_summary_table(summary))
@@ -423,10 +424,7 @@ def full_report_to_text(data):
     lines.append(f"total_records: {duplicates['total_records']}")
     lines.append(f"duplicate_id_count: {duplicates['duplicate_id_count']}")
     lines.append(f"identical_sequence_cluster_count: {duplicates['identical_sequence_cluster_count']}")
-    lines.append(
-        "records_in_identical_sequence_clusters: "
-        f"{duplicates['records_in_identical_sequence_clusters']}"
-    )
+    lines.append("records_in_identical_sequence_clusters: " f"{duplicates['records_in_identical_sequence_clusters']}")
     if duplicates["duplicate_ids"]:
         lines.append("duplicate_ids:")
         for seq_id, count in sorted(duplicates["duplicate_ids"].items()):
@@ -434,10 +432,7 @@ def full_report_to_text(data):
     if duplicates["identical_sequence_clusters"]:
         lines.append("identical_sequence_clusters:")
         for index, cluster in enumerate(duplicates["identical_sequence_clusters"], start=1):
-            lines.append(
-                f"  Cluster {index}: len={cluster['length']}, "
-                f"count={cluster['count']}, ids={', '.join(cluster['ids'])}"
-            )
+            lines.append(f"  Cluster {index}: len={cluster['length']}, " f"count={cluster['count']}, ids={', '.join(cluster['ids'])}")
     return "\n".join(lines)
 
 
@@ -487,7 +482,7 @@ def full_report_to_html(data):
 
     lines.extend(
         [
-        "<h2>Summary statistics</h2>",
+            "<h2>Summary statistics</h2>",
         ]
     )
     lines.extend(_summary_table(summary))
@@ -554,14 +549,18 @@ def full_report_to_tsv(data):
 
     return "\n".join(lines)
 
+
 def format_validation_report(file_path, validated, summary, output_format):
     """Format validation results into text, tsv, json, or html."""
     if output_format == "json":
-        return json.dumps({
-            "file": file_path,
-            "summary": summary,
-            "records": validated,
-        }, indent=2)
+        return json.dumps(
+            {
+                "file": file_path,
+                "summary": summary,
+                "records": validated,
+            },
+            indent=2,
+        )
     elif output_format == "tsv":
         lines = ["id\tvalid\terrors\twarnings\thas_x\thas_stop\tis_empty"]
         for v in validated:
@@ -582,53 +581,63 @@ def format_validation_report(file_path, validated, summary, output_format):
             "<main>",
             "<header>",
             "<h1>Validation report</h1>",
-            f"<p class=\"muted\">File: {escape(str(file_path))}</p>",
+            f'<p class="muted">File: {escape(str(file_path))}</p>',
             "</header>",
         ]
         # Summary cards
-        lines.extend(_cards([
-            ("Total records", summary["total_records"]),
-            ("Valid records", summary["valid_records"]),
-            ("Invalid records", summary["invalid_records"]),
-            ("Records with X", summary["records_with_X"]),
-            ("Records with *", summary["records_with_stop"]),
-            ("Empty records", summary["empty_records"]),
-        ]))
+        lines.extend(
+            _cards(
+                [
+                    ("Total records", summary["total_records"]),
+                    ("Valid records", summary["valid_records"]),
+                    ("Invalid records", summary["invalid_records"]),
+                    ("Records with X", summary["records_with_X"]),
+                    ("Records with *", summary["records_with_stop"]),
+                    ("Empty records", summary["empty_records"]),
+                ]
+            )
+        )
         # Per-record table
-        lines.extend([
-            "<h2>Per‑record details</h2>",
-            "<table>",
-            "<thead>",
-            "<tr><th>ID</th><th>Length</th><th>Valid</th><th>Errors</th><th>Warnings</th></tr>",
-            "</thead>",
-            "<tbody>",
-        ])
+        lines.extend(
+            [
+                "<h2>Per‑record details</h2>",
+                '<table class="validation-table">',
+                "<thead>",
+                "<tr><th>ID</th><th>Length</th><th>Valid</th><th>Errors</th><th>Warnings</th></tr>",
+                "</thead>",
+                "<tbody>",
+            ]
+        )
         for v in validated:
             valid_class = "status-ok" if v["valid"] else "status-warn"
-            errors_str = escape("<br>".join(v["errors"])) if v["errors"] else "—"
-            warnings_str = escape("<br>".join(v["warnings"])) if v["warnings"] else "—"
+            errors_str = escape("<br>".join(v["errors"])) if v["errors"] else "-"
+            warnings_str = escape("<br>".join(v["warnings"])) if v["warnings"] else "-"
             lines.append(
-                f"<tr class=\"{valid_class}\">"
+                "<tr>"
                 f"<td>{escape(v['id'])}</td>"
                 f"<td>{v['sequence_length']}</td>"
-                f"<td>{v['valid']}</td>"
+                f'<td class="{valid_class}">{v["valid"]}</td>'
                 f"<td>{errors_str}</td>"
                 f"<td>{warnings_str}</td>"
                 "</tr>"
             )
-        lines.extend([
-            "</tbody>",
-            "</table>",
-            "</main>",
-            "</body>",
-            "</html>",
-        ])
+        lines.extend(
+            [
+                "</tbody>",
+                "</table>",
+                "</main>",
+                "</body>",
+                "</html>",
+            ]
+        )
         return "\n".join(lines)
     else:  # text
-        lines = [f"=== Validation report for {file_path} ===",
-                 f"Total records: {summary['total_records']}",
-                 f"Valid: {summary['valid_records']}, Invalid: {summary['invalid_records']}",
-                 f"Records with 'X': {summary['records_with_X']}, with '*': {summary['records_with_stop']}, empty: {summary['empty_records']}\n"]
+        lines = [
+            f"=== Validation report for {file_path} ===",
+            f"Total records: {summary['total_records']}",
+            f"Valid: {summary['valid_records']}, Invalid: {summary['invalid_records']}",
+            f"Records with 'X': {summary['records_with_X']}, with '*': {summary['records_with_stop']}, empty: {summary['empty_records']}\n",
+        ]
         for v in validated:
             if v["errors"] or v["warnings"]:
                 lines.append(f"> {v['id']} (len={v['sequence_length']})")
@@ -638,16 +647,31 @@ def format_validation_report(file_path, validated, summary, output_format):
                     lines.append(f"  WARN:  {warn}")
         return "\n".join(lines)
 
+
 def format_duplicates_report(data, file_path, output_format):
-    """Format duplicate analysis results into text, tsv, or json."""
+    """Format duplicate analysis results into text, tsv, json, or html."""
     if output_format == "json":
         return json.dumps(data, indent=2)
     elif output_format == "tsv":
-        lines = ["cluster_no\tlength\tcount\tids"]
+        lines = ["section\tmetric\tvalue"]
+        summary_keys = [
+            "total_records",
+            "duplicate_id_count",
+            "identical_sequence_cluster_count",
+            "records_in_identical_sequence_clusters",
+        ]
+        for key in summary_keys:
+            lines.append(f"summary\t{key}\t{data[key]}")
+
+        lines.append("")
+        lines.append("section\tid\toccurrences")
+        for seq_id, count in sorted(data["duplicate_ids"].items()):
+            lines.append(f"duplicate_ids\t{seq_id}\t{count}")
+
+        lines.append("")
+        lines.append("section\tcluster_no\tlength\tcount\tids")
         for i, cluster in enumerate(data["identical_sequence_clusters"], start=1):
-            lines.append(
-                f"{i}\t{cluster['length']}\t{cluster['count']}\t{','.join(cluster['ids'])}"
-            )
+            lines.append("identical_sequence_clusters\t" f"{i}\t{cluster['length']}\t{cluster['count']}\t" f"{','.join(cluster['ids'])}")
         return "\n".join(lines)
     elif output_format == "html":
         lines = [
@@ -656,40 +680,32 @@ def format_duplicates_report(data, file_path, output_format):
             "<head>",
             "<title>Duplicate report</title>",
             "<style>",
-            "table { border-collapse: collapse; }",
-            "th, td { border: 1px solid black; padding: 4px; }",
+            _html_styles(),
             "</style>",
             "</head>",
             "<body>",
-            f"<h1>Duplicate report for {file_path}</h1>",
-            "<h2>Summary</h2>",
-            "<table>",
-            "<tr><th>Metric</th><th>Value</th></tr>",
-            f"<tr><td>Total records</td><td>{data['total_records']}</td></tr>",
-            f"<tr><td>Duplicate IDs</td><td>{data['duplicate_id_count']}</td></tr>",
-            f"<tr><td>Identical sequence clusters</td><td>{data['identical_sequence_cluster_count']}</td></tr>",
-            "</table>",
-            "<h2>Duplicate IDs</h2>",
-            "<table>",
-            "<tr><th>ID</th><th>Count</th></tr>",
+            "<main>",
+            "<header>",
+            "<h1>Duplicate report</h1>",
+            f'<p class="muted">File: {escape(str(file_path))}</p>',
+            "</header>",
         ]
-
-        for seq_id, count in sorted(data["duplicate_ids"].items()):
-            lines.append(f"<tr><td>{seq_id}</td><td>{count}</td></tr>")
-
-        lines.extend([
-            "</table>",
-            "<h2>Identical sequence clusters</h2>",
-            "<table>",
-            "<tr><th>Cluster</th><th>Length</th><th>Count</th><th>IDs</th></tr>",
-        ])
-
-        for i, cluster in enumerate(data["identical_sequence_clusters"], start=1):
-            lines.append(
-                f"<tr><td>{i}</td><td>{cluster['length']}</td><td>{cluster['count']}</td><td>{', '.join(cluster['ids'])}</td></tr>"
+        lines.extend(
+            _cards(
+                [
+                    ("Records", data["total_records"]),
+                    ("Duplicate IDs", data["duplicate_id_count"]),
+                    ("Sequence clusters", data["identical_sequence_cluster_count"]),
+                    (
+                        "Records in clusters",
+                        data["records_in_identical_sequence_clusters"],
+                    ),
+                ]
             )
-
-        lines.extend(["</table>", "</body>", "</html>"])
+        )
+        lines.extend(["<h2>Summary</h2>"])
+        lines.extend(_duplicates_section(data))
+        lines.extend(["</main>", "</body>", "</html>"])
         return "\n".join(lines)
     else:
         lines = [
@@ -705,14 +721,78 @@ def format_duplicates_report(data, file_path, output_format):
         if data["identical_sequence_clusters"]:
             lines.append("\nIdentical sequence clusters:")
             for i, cluster in enumerate(data["identical_sequence_clusters"], start=1):
-                lines.append(
-                    f"  Cluster {i}: len={cluster['length']}, ids={', '.join(cluster['ids'])}"
-                )
+                lines.append(f"  Cluster {i}: len={cluster['length']}, ids={', '.join(cluster['ids'])}")
         return "\n".join(lines)
 
 
+def _compare_items_table(items, headers, row_builder, empty_message):
+    """Return an HTML table for comparison items."""
+    if not items:
+        return [f'<p class="muted">{escape(empty_message)}</p>']
+
+    lines = [
+        "<table>",
+        "<tr>" + "".join(f"<th>{escape(header)}</th>" for header in headers) + "</tr>",
+    ]
+    for item in items:
+        cells = row_builder(item)
+        lines.append("<tr>" + "".join(f"<td>{escape(str(cell))}</td>" for cell in cells) + "</tr>")
+    lines.append("</table>")
+    return lines
+
+
+def _duplicate_cluster_changes_section(changes):
+    """Return an HTML section for duplicate cluster changes."""
+    lines = ["<h2>Duplicate cluster changes</h2>"]
+
+    lines.extend(["<h3>Added clusters</h3>"])
+    lines.extend(
+        _compare_items_table(
+            changes["added_clusters"],
+            ["Length", "IDs", "Sequence preview"],
+            lambda item: [
+                item["length"],
+                ", ".join(item["ids"]),
+                item["sequence"][:60] + ("..." if len(item["sequence"]) > 60 else ""),
+            ],
+            "No added duplicate clusters.",
+        )
+    )
+
+    lines.extend(["<h3>Removed clusters</h3>"])
+    lines.extend(
+        _compare_items_table(
+            changes["removed_clusters"],
+            ["Length", "IDs", "Sequence preview"],
+            lambda item: [
+                item["length"],
+                ", ".join(item["ids"]),
+                item["sequence"][:60] + ("..." if len(item["sequence"]) > 60 else ""),
+            ],
+            "No removed duplicate clusters.",
+        )
+    )
+
+    lines.extend(["<h3>Changed clusters</h3>"])
+    lines.extend(
+        _compare_items_table(
+            changes["changed_clusters"],
+            ["Length", "Old IDs", "New IDs", "Added IDs", "Removed IDs"],
+            lambda item: [
+                item["length"],
+                ", ".join(item["old_ids"]),
+                ", ".join(item["new_ids"]),
+                ", ".join(item["added_ids"]) or "-",
+                ", ".join(item["removed_ids"]) or "-",
+            ],
+            "No changed duplicate clusters.",
+        )
+    )
+    return lines
+
+
 def format_compare_report(data, output_format):
-    """Format comparison results into text, tsv, or json."""
+    """Format comparison results into text, tsv, json, or html."""
     if output_format == "json":
         return json.dumps(data, indent=2)
     elif output_format == "tsv":
@@ -724,9 +804,7 @@ def format_compare_report(data, output_format):
             lines.append(f"removed\t{item['id']}\t{item['old_length']}\t")
 
         for item in data["changed_sequences"]:
-            lines.append(
-                f"changed\t{item['id']}\t{item['old_length']}\t{item['new_length']}"
-            )
+            lines.append(f"changed\t{item['id']}\t{item['old_length']}\t{item['new_length']}")
         return "\n".join(lines)
     elif output_format == "html":
         summary = data["summary"]
@@ -736,53 +814,78 @@ def format_compare_report(data, output_format):
             "<head>",
             "<title>Comparison report</title>",
             "<style>",
-            "table { border-collapse: collapse; }",
-            "th, td { border: 1px solid black; padding: 4px; }",
+            _html_styles(),
             "</style>",
             "</head>",
             "<body>",
+            "<main>",
+            "<header>",
             "<h1>Comparison report</h1>",
-            "<h2>Summary</h2>",
-            "<table>",
-            "<tr><th>Metric</th><th>Value</th></tr>",
+            '<p class="muted">Protein FASTA dataset comparison.</p>',
+            "</header>",
         ]
-
-        for metric, value in summary.items():
-            lines.append(f"<tr><td>{metric}</td><td>{value}</td></tr>")
-
-        lines.extend([
-            "</table>",
-            "<h2>Added IDs</h2>",
-            "<table>",
-            "<tr><th>ID</th><th>New length</th></tr>",
-        ])
-
-        for item in data["added_ids"]:
-            lines.append(f"<tr><td>{item['id']}</td><td>{item['new_length']}</td></tr>")
-
-        lines.extend([
-            "</table>",
-            "<h2>Removed IDs</h2>",
-            "<table>",
-            "<tr><th>ID</th><th>Old length</th></tr>",
-        ])
-
-        for item in data["removed_ids"]:
-            lines.append(f"<tr><td>{item['id']}</td><td>{item['old_length']}</td></tr>")
-
-        lines.extend([
-            "</table>",
-            "<h2>Changed sequences</h2>",
-            "<table>",
-            "<tr><th>ID</th><th>Old length</th><th>New length</th></tr>",
-        ])
-
-        for item in data["changed_sequences"]:
-            lines.append(
-                f"<tr><td>{item['id']}</td><td>{item['old_length']}</td><td>{item['new_length']}</td></tr>"
+        lines.extend(
+            _cards(
+                [
+                    ("Old records", summary["old_total_records"]),
+                    ("New records", summary["new_total_records"]),
+                    ("Added IDs", summary["added_count"]),
+                    ("Removed IDs", summary["removed_count"]),
+                    ("Changed sequences", summary["changed_sequence_count"]),
+                    (
+                        "Changed clusters",
+                        summary["changed_duplicate_cluster_count"],
+                    ),
+                ]
             )
-
-        lines.extend(["</table>", "</body>", "</html>"])
+        )
+        lines.extend(
+            [
+                "<h2>Summary</h2>",
+            ]
+        )
+        lines.extend(_metric_table(summary))
+        lines.extend(
+            [
+                "<h2>Added IDs</h2>",
+            ]
+        )
+        lines.extend(
+            _compare_items_table(
+                data["added_ids"],
+                ["ID", "New length"],
+                lambda item: [item["id"], item["new_length"]],
+                "No added IDs.",
+            )
+        )
+        lines.extend(
+            [
+                "<h2>Removed IDs</h2>",
+            ]
+        )
+        lines.extend(
+            _compare_items_table(
+                data["removed_ids"],
+                ["ID", "Old length"],
+                lambda item: [item["id"], item["old_length"]],
+                "No removed IDs.",
+            )
+        )
+        lines.extend(
+            [
+                "<h2>Changed sequences</h2>",
+            ]
+        )
+        lines.extend(
+            _compare_items_table(
+                data["changed_sequences"],
+                ["ID", "Old length", "New length"],
+                lambda item: [item["id"], item["old_length"], item["new_length"]],
+                "No changed sequences.",
+            )
+        )
+        lines.extend(_duplicate_cluster_changes_section(data["duplicate_cluster_changes"]))
+        lines.extend(["</main>", "</body>", "</html>"])
         return "\n".join(lines)
     else:
         summary = data["summary"]
