@@ -9,8 +9,9 @@ import re
 STD_AA = set("ACDEFGHIKLMNPQRSTVWY")
 # Allowed with warnings
 WARN_AA = {"X", "*"}   # X = unknown, * = stop
-# Non-standard but sometimes seen (B, Z, J) – also warnings
-NON_STD = {"B", "Z", "J"}
+# Non-standard or ambiguous but sometimes seen (U) selenocysteine, (O) pyrrolysine, (B) either aspartic acid or asparagine
+# (Z) either glutamic acid or glutamine, (J) either leucine or isoleucine
+NON_STD = {"U", "O", "B", "Z", "J"}
 # All characters that are not immediately rejected
 VALID_CHARS = STD_AA | WARN_AA | NON_STD
 
